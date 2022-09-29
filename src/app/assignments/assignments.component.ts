@@ -7,23 +7,8 @@ import { Assignments } from './assignment.model';
 })
 export class AssignmentsComponent implements OnInit {
   titre = 'Mon application sur les Assignments !';
-  ajoutActive =  false;
-  nomDevoir:string = '';
-  dateDeRendu!: Date;
-
-  ngOnInit(): void { 
-      setTimeout( ()=> { this.ajoutActive = true; }, 2000);
-  }
-
-  onSubmit() {
-    const newAssignments = new Assignments();
-    newAssignments.nom = this.nomDevoir; 
-    newAssignments.dateDeRendu = this.dateDeRendu;
-    newAssignments.rendu = false;
-
-    this.assignments.push(newAssignments);
-  }
- 
+  formVisible = false;
+  assignementSelectionne!:Assignments;
   assignments:Assignments[] = [
     {
       nom: "Devoir Angular à rendre",
@@ -42,7 +27,23 @@ export class AssignmentsComponent implements OnInit {
     }
    
   ]
+  
+  ngOnInit(): void { 
+   
+  }
 
+  onAddAssignmentBtnClick() {
+    this.formVisible = true;
+  }
+
+  assignmentClique(assignment:Assignments) {
+    this.assignementSelectionne = assignment;
+  }
+
+  onNouvelleAssignement(event:Assignments) {
+    this.assignments.push(event);
+    this.formVisible = false;
+  }
   constructor() { }
 
 }
