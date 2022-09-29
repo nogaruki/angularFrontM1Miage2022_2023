@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C'est un agenda</title>
+</head>
+<body>
+    <h1>Je suis une agenda</h1>
+    <br>
+    <form class="form" ngForm (submit)="onSubmit(); assignmentForm.reset()" #assignmentForm>
+        <mat-form-field>
+            <input matInput #nomAssignment [(ngModel)]="nomDevoir" name="nom" placeholder="Nom du devoir" required>
+        </mat-form-field>
+        <p>Le nom du devoir est : {{nomDevoir}}</p>
+        <mat-form-field appearance="fill">
+            <input matInput [matDatepicker]="picker" placeholder="Date de rendu" [(ngModel)]="dateDeRendu" name="date" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <input type="submit"s mat-stroked-button color="primary" [disabled]="!ajoutActive" value="Ajouter un devoir">
+    </form>
+    <br>
+    <mat-list *ngFor="let assignment of assignments">
+        <mat-list-item> 
+            <p appRendu *ngIf="assignment.rendu; else nonsoumis">
+                Devoir intitulé {{assignment.nom}}, rendu le {{assignment.dateDeRendu}}
+            </p>
+            <ng-template #nonsoumis>
+                Le devoir {{assignment.nom}} n'a pas été rendu.
+            </ng-template>  
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list>
+    <app-assignment-detail></app-assignment-detail>
+</body>
+</html>
