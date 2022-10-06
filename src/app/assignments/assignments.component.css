@@ -5,3 +5,15 @@
 .nonRendu {
     color: red;
 }
+
+.container
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ajouterBtn
+{
+    align-self: flex-end;
+}

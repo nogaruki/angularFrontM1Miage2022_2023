@@ -1,5 +1,6 @@
-import { Component, Input,OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input,OnInit } from '@angular/core';
 import { Assignments } from '../assignments/assignment.model';
+import { AssignmentsService } from '../shared/assignments.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -7,20 +8,22 @@ import { Assignments } from '../assignments/assignment.model';
   styleUrls: ['./assignment-detail.component.css']
 })
 export class AssignmentDetailComponent implements OnInit {
-  @Input() assignementTransmis!: Assignments;
 
-  constructor() { }
+  @Input() assignementTransmis!: Assignments;
+  @Output() deleteClick: EventEmitter<Assignments> = new EventEmitter<Assignments>(); 
+  
+  constructor (private assignmentsService: AssignmentsService) {}
 
   ngOnInit(): void {
   }
 
-  onAssignementRendu() {
-    if( this.assignementTransmis.rendu) {
-      this.assignementTransmis.rendu = false;
-    }
-    else {
-      this.assignementTransmis.rendu = true;
-    }
+  onDeleteAssignmentBtnClick()
+  {
+    this.deleteClick.emit(this.assignementTransmis);
+    this.assignementTransmis != null;
   }
 
+  onAssignementRendu() {
+    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe( message => console.log(message));
+  }
 }
