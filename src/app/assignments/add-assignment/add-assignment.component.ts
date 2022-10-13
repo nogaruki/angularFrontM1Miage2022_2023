@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
-import { Assignments } from '../assignment.model';
+import { Component, OnInit, /*EventEmitter, Output*/} from '@angular/core';
+import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { Assignment } from '../assignment.model';
 
 @Component({
   selector: 'app-add-assignment',
@@ -7,23 +8,24 @@ import { Assignments } from '../assignment.model';
   styleUrls: ['./add-assignment.component.css']
 })
 export class AddAssignmentComponent implements OnInit {
-  @Output() nouvelAssignment = new EventEmitter<Assignments>()
+  // @Output() nouvelAssignment = new EventEmitter<Assignments>()
 
   nomDevoir:string = "";
   dateRendu!:Date;
 
-  constructor() { }
+  constructor(private assignmentService: AssignmentsService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    const newAssignment = new Assignments();
+    const newAssignment = new Assignment();
     newAssignment.nom = this.nomDevoir; 
     newAssignment.dateDeRendu = this.dateRendu;
     newAssignment.rendu = false;
     
-      this.nouvelAssignment.emit(newAssignment)
+      // this.nouvelAssignment.emit(newAssignment)
+      this.assignmentService.addAssignment(newAssignment).subscribe( message => console.log(message));
   }
 
 }

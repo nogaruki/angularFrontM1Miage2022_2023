@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssignmentsService } from '../shared/assignments.service';
-import { Assignments } from './assignment.model';
+import { Assignment } from './assignment.model';
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
@@ -9,8 +9,8 @@ import { Assignments } from './assignment.model';
 export class AssignmentsComponent implements OnInit {
   titre = 'Mon application sur les Assignments !';
   formVisible = false;
-  assignementSelectionne!:Assignments;
-  assignments!: Assignments[];
+  assignementSelectionne!:Assignment;
+  assignments!: Assignment[];
 
   constructor (private assignmentsService: AssignmentsService) {}
   
@@ -21,21 +21,21 @@ export class AssignmentsComponent implements OnInit {
   {
     this.assignmentsService.getAssignments().subscribe( assignement => this.assignments = assignement); 
   }
- 
+  
 
   onAddAssignmentBtnClick() {
-    this.formVisible = true;
+    // this.formVisible = true;
   }
 
-  assignmentClique(assignment:Assignments) {
+  assignmentClique(assignment:Assignment) {
     this.assignementSelectionne = assignment;
   }
 
-  onNouvelleAssignement(event:Assignments) {
-    // this.assignments.push(event);
+  // onNouvelleAssignement(event:Assignments) {
+  //   // this.assignments.push(event);
 
-    this.assignmentsService.addAssignment(event).subscribe( message => console.log(message));
-    this.formVisible = false;
-  }
+  //   this.assignmentsService.addAssignment(event).subscribe( message => console.log(message));
+  //   this.formVisible = false;
+  // }
 
 }
