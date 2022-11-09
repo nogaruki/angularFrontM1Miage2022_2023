@@ -20,15 +20,18 @@ export class AssignmentDetailComponent implements OnInit {
 
   onDeleteAssignmentBtnClick()
   {
-    this.assignmentsService.deleteAssignment(this.assignementTransmis).subscribe((message) =>  console.log(message));
+    this.assignmentsService.deleteAssignment(this.assignementTransmis).subscribe((message) => {
+      console.log(message);
+      this.router.navigate(['/home']);
+    });
 
-
-    this.router.navigate(['/home']);
   }
 
   onAssignementRendu() {
-    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe( message => console.log(message));
-    this.router.navigate(['/home']);
+    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe( message => {
+      console.log(message)
+      this.router.navigate(['/home']);
+    });
   }
   
   getAssignment() {

@@ -23,6 +23,7 @@ import { AssignmentDetailComponent } from './assignment-detail/assignment-detail
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { AuthGuard } from './shared/auth.guard';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Route[] = [
   // http://localhost:4200/
@@ -71,6 +72,7 @@ const routes: Route[] = [
     MatCheckboxModule,
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
