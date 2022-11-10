@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
 @Component({
@@ -11,33 +12,64 @@ export class AssignmentsComponent implements OnInit {
   formVisible = false;
   assignementSelectionne!:Assignment;
   assignments!: Assignment[];
+  ajoutActive = false;
+  nomDevoir: string = '';
+  dateDeRendu!: Date;
+  page: number = 1;
+  limit: number = 10;
+  totalDocs!: number;
+  totalPages!: number;
+  hasPrevPage!: boolean;
+  prevPage!: number;
+  hasNextPage!: boolean;
+  nextPage!: number;
 
-  constructor (private assignmentsService: AssignmentsService) {}
+
+  constructor(private assignementsService: AssignmentsService, private router: Router) { }
   
-  ngOnInit(){ 
-   this.getAssginements();
-  }
-  getAssginements()
-  {
-    this.assignmentsService.getAssignments().subscribe( assignement => this.assignments = assignement); 
-  }
-  
+  ngOnInit(): void {
+    this.assignementsService.getAssignmentsPagine(this.page, this.limit)
+      .subscribe(data => {
+        this.assignments = data.docs;
+        this.page = data.page;
+        this.limit = data.limit;
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.hasPrevPage = data.hasPrevPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.nextPage = data.nextPage;
+        console.log("données reçues");
+      });
 
-  onAddAssignmentBtnClick() {
-    // this.formVisible = true;
   }
 
-  assignmentClique(assignment:Assignment) {
+  assignmentClique(assignment: Assignment) {
     this.assignementSelectionne = assignment;
   }
 
-  // onNouvelleAssignement(event:Assignments) {
-  //   // this.assignments.push(event);
+  onAddAssignmentBtnClick() {
+    this.formVisible = true;
+  }
 
-  //   this.assignmentsService.addAssignment(event).subscribe( message => console.log(message));
-  //   this.formVisible = false;
-  // }
 
+  getDataByPage(page: number, limit: number) {
+    this.assignementsService.getAssignmentsPagine(page, limit)
+      .subscribe(data => {
+        this.assignments = data.docs;
+        this.page = data.page;
+        this.limit = data.limit;
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.hasPrevPage = data.hasPrevPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.nextPage = data.nextPage;
+      });
+  }
   
+  updatePage(event: any) {
+    this.getDataByPage(event.pageIndex + 1, event.pageSize);
+  }
 
 }

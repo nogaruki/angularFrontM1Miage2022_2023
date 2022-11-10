@@ -29,6 +29,8 @@
                 </mat-list-item>    
             </a></nav>
         </mat-list>
+        <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" (page)="updatePage($event)" aria-label="Select page">
+        </mat-paginator>
     </main>
 </body>
 </html>

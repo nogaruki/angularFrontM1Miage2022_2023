@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import {LoggingService} from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from  'rxjs/operators';
@@ -15,7 +15,7 @@ export class AssignmentsService {
     })
   }
 
-  url = "http://localhost:8010/api/assignments"
+  url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
   
   constructor (private loggingService:LoggingService, private http:HttpClient) { }
     
@@ -26,6 +26,14 @@ export class AssignmentsService {
 
   }
 
+  getAssignmentsPagine(page: number, limit: number): Observable<any> {
+    const queryParams = {
+      page: page,
+      limit: limit
+    }
+    return this.http.get<any>(this.url, { params: queryParams });
+  }
+
   getAssignment(id:number):Observable<Assignment> {
     // let assignment = this.assignments.find(assignment => assignment.id === id);
     // if(assignment == null) {
@@ -33,14 +41,6 @@ export class AssignmentsService {
     // }
     // return of(assignment);
     return this.http.get<Assignment>(this.url + "/"+ id)
-    .pipe(map (a => {
-        a.nom += "transformé avec un pip";
-        return a;
-    }), 
-    tap(_ => {
-      console.log("tap: assignment avec id=" + id + " requête GET envoyé sur MongoDB cloud")
-    }),
-    catchError(this.handleError<Assignment>(`getAssignment(id=${id})`)));
     
   }
 
@@ -72,6 +72,6 @@ export class AssignmentsService {
 
         return of (result as T)
     }
-  }
+  } 
 }
 
