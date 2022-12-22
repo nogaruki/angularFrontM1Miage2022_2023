@@ -14,8 +14,11 @@ export class AssignmentsService {
       'Content-Type': 'application/json'
     })
   }
+  //prodURL :
+  //url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
 
-  url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
+  //devURL :
+  url = "http://localhost:8010/api/assignments";
   
   constructor (private loggingService:LoggingService, private http:HttpClient) { }
     
