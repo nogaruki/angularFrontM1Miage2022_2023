@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssignmentsService } from '../shared/assignments.service';
 import { Assignment } from './assignment.model';
+
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
+
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
@@ -23,14 +28,21 @@ export class AssignmentsComponent implements OnInit {
   prevPage!: number;
   hasNextPage!: boolean;
   nextPage!: number;
+  displayedColumns!: string[];
+  sortedData!: Assignment[];
 
+  dataSource!: MatTableDataSource<Assignment>;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private assignementsService: AssignmentsService, private router: Router) { }
   
   ngOnInit(): void {
+    this.displayedColumns = ['id', 'nom', 'dateDeRendu', 'rendu'];
     this.assignementsService.getAssignmentsPagine(this.page, this.limit)
       .subscribe(data => {
         this.assignments = data.docs;
+        this.dataSource = new MatTableDataSource<Assignment>(this.assignments);
+        this.dataSource.sort = this.sort;
         this.page = data.page;
         this.limit = data.limit;
         this.totalDocs = data.totalDocs;
@@ -57,6 +69,8 @@ export class AssignmentsComponent implements OnInit {
     this.assignementsService.getAssignmentsPagine(page, limit)
       .subscribe(data => {
         this.assignments = data.docs;
+        this.dataSource = new MatTableDataSource<Assignment>(this.assignments);
+        this.dataSource.sort = this.sort;
         this.page = data.page;
         this.limit = data.limit;
         this.totalDocs = data.totalDocs;
@@ -72,4 +86,36 @@ export class AssignmentsComponent implements OnInit {
     this.getDataByPage(event.pageIndex + 1, event.pageSize);
   }
 
+  onRowClick(row: any) {
+    // Récupérez l'ID de l'élément sélectionné
+    const id = row.id;
+    // Redirigez l'utilisateur vers la page de détail de l'élément en utilisant le service Router
+    this.router.navigate(['/assignment', id]);
+  }
+
+
+  sortData(sort: Sort) {
+    const isAscending = sort.direction === 'asc';
+    this.sortedData = this.assignments.sort((a, b) => {
+      if (isAscending) {
+        // Tri ascendant
+        if (a.id < b.id) {
+          return -1;
+        } else if (a.id > b.id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      } else {
+        // Tri descendant
+        if (a.id > b.id) {
+          return -1;
+        } else if (a.id < b.id) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }
+    });
+  }
 }

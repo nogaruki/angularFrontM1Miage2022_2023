@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C'est un agenda</title>
 </head>
+
 <body>
     <h1>Je suis une agenda</h1>
     <br>
@@ -15,22 +17,40 @@
                 <button class="ajouterBtn" mat-flat-button color="accent" (click)="onAddAssignmentBtnClick()">Ajouter un assignment</button>
             </a>
         </div>
-        <mat-list *ngFor="let assignment of assignments">
-            <nav><a routerLink="/assignment/{{assignment.id}}">
-                <h3 mat-subheader>Date de rendu     {{assignment.dateDeRendu | date}}</h3>
-                <mat-list-item (click)="assignmentClique(assignment)"> 
-                    <p appRendu *ngIf="assignment.rendu; else nonsoumis">
-                        Devoir intitulé {{assignment.nom}} à été rendu.
-                    </p>
-                    <ng-template #nonsoumis>
-                        Le devoir {{assignment.nom}} n'a pas été rendu.
-                    </ng-template>  
-                    <mat-divider></mat-divider>
-                </mat-list-item>    
-            </a></nav>
-        </mat-list>
-        <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" (page)="updatePage($event)" aria-label="Select page">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header (sortChange)="sortData(sort)"> ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+              </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="nom">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+                <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="dateDeRendu">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de rendu </th>
+                <td mat-cell *matCellDef="let element"> {{element.dateDeRendu}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="rendu">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
+                <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+        </table>
+
+        <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]"
+            (page)="updatePage($event)" aria-label="Select page">
         </mat-paginator>
     </main>
 </body>
+
 </html>

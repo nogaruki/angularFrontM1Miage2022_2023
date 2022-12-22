@@ -17,3 +17,17 @@
 {
     align-self: flex-end;
 }
+
+.mat-row:hover {
+    cursor: pointer;
+}
+
+.mat-header-row {
+    position: sticky;
+    top: 0;
+}
+
+th {
+    color:black;
+    font-size:larger;
+}
