@@ -1,9 +1,30 @@
 <div id="bottom">
     <mat-card *ngIf="assignementTransmis">
         <mat-card-title>{{assignementTransmis.nom}}</mat-card-title>
+        <!-- <mat-card-subtitle *ngIf="!assignementTransmis.rendu">Note : {{assignementTransmis.note}}</mat-card-subtitle> -->
         <mat-card-subtitle>{{assignementTransmis.dateDeRendu | date}}</mat-card-subtitle>
+        <div mat-card-avatar class="example-header-image" *ngIf="teacher"><img mat-card-image src="{{teacher.picture}}" alt="Photo du prof"></div>
+        <mat-card-subtitle *ngIf="teacherUser">{{teacherUser.nom}}</mat-card-subtitle>
+        <div mat-card-avatar class="example-header-image" *ngIf="subject"><img mat-card-image src="{{subject.picture}}" alt="Photo de la matière"></div>
+        <mat-card-subtitle *ngIf="subject">{{subject.title}}</mat-card-subtitle>
         <mat-checkbox *ngIf="!assignementTransmis.rendu" (click)="onAssignementRendu()">Devoir rendu</mat-checkbox>
         <button mat-stroked-button color="primary" (click)="onclickEdit()" [disabled]="!isAdmin()"> Edit </button>
         <button mat-flat-button color="warn" (click)="onDeleteAssignmentBtnClick()"> Supprimer Assignment</button>
     </mat-card>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Remarque</th>
+                <th>Auteur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let comment of comments; index as i">
+                <td>{{i}}</td>
+                <td>{{comment.comment}}</td>
+                <td>{{comment.teacher_id}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Assignment } from '../assignments/assignment.model';
+import { Assignment } from './model/assignment.model';
 import { forkJoin, Observable, of } from 'rxjs';
 import {LoggingService} from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -29,10 +29,12 @@ export class AssignmentsService {
 
   }
 
-  getAssignmentsPagine(page: number, limit: number): Observable<any> {
+  getAssignmentsPagine(page: number, limit: number, filterValue: string, rendu: string): Observable<any> {
     const queryParams = {
       page: page,
-      limit: limit
+      limit: limit,
+      filterValue: filterValue,
+      rendu: rendu
     }
     return this.http.get<any>(this.url, { params: queryParams });
   }
