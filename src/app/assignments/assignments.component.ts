@@ -34,11 +34,14 @@ export class AssignmentsComponent implements OnInit {
   dataSource!: MatTableDataSource<Assignment>;
   @ViewChild(MatSort) sort!: MatSort;
 
+  filterValue: string = '';
+  filterRendu: string = '';
+
   constructor(private assignementsService: AssignmentsService, private router: Router) { }
   
   ngOnInit(): void {
     this.displayedColumns = ['id', 'nom', 'dateDeRendu', 'rendu'];
-    this.assignementsService.getAssignmentsPagine(this.page, this.limit)
+    this.assignementsService.getAssignmentsPagine(this.page, this.limit, this.filterValue, this.filterRendu)
       .subscribe(data => {
         this.assignments = data.docs;
         this.dataSource = new MatTableDataSource<Assignment>(this.assignments);
@@ -66,7 +69,7 @@ export class AssignmentsComponent implements OnInit {
 
 
   getDataByPage(page: number, limit: number) {
-    this.assignementsService.getAssignmentsPagine(page, limit)
+    this.assignementsService.getAssignmentsPagine(page, limit, this.filterValue, this.filterRendu)
       .subscribe(data => {
         this.assignments = data.docs;
         this.dataSource = new MatTableDataSource<Assignment>(this.assignments);
@@ -117,5 +120,21 @@ export class AssignmentsComponent implements OnInit {
         }
       }
     });
+  }
+  updateAssignmentsTable() {
+    this.assignementsService.getAssignmentsPagine(this.page, this.limit, this.filterValue, this.filterRendu)
+      .subscribe(data => {
+        this.assignments = data.docs;
+        this.dataSource = new MatTableDataSource<Assignment>(this.assignments);
+        this.dataSource.sort = this.sort;
+        this.page = data.page;
+        this.limit = data.limit;
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.hasPrevPage = data.hasPrevPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.nextPage = data.nextPage;
+      });
   }
 }

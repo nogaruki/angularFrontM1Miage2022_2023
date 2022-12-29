@@ -29,10 +29,12 @@ export class AssignmentsService {
 
   }
 
-  getAssignmentsPagine(page: number, limit: number): Observable<any> {
+  getAssignmentsPagine(page: number, limit: number, filterValue: string, rendu: string): Observable<any> {
     const queryParams = {
       page: page,
-      limit: limit
+      limit: limit,
+      filterValue: filterValue,
+      rendu: rendu
     }
     return this.http.get<any>(this.url, { params: queryParams });
   }

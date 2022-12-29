@@ -6,15 +6,13 @@
     color: red;
 }
 
-.container
-{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.ajouterBtn
-{
+.ajouterBtn {
     align-self: flex-end;
 }
 
@@ -28,6 +26,14 @@
 }
 
 th {
-    color:black;
-    font-size:larger;
+    color: black;
+    font-size: larger;
+}
+
+.filterRendu {
+    display: flex;
+}
+
+.filterRendu>* {
+    margin-right: 10px;
 }

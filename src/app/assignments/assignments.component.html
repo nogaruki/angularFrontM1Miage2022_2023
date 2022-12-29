@@ -17,13 +17,23 @@
                 <button class="ajouterBtn" mat-flat-button color="accent" (click)="onAddAssignmentBtnClick()">Ajouter un assignment</button>
             </a>
         </div>
+        <mat-form-field>
+            <input matInput [(ngModel)]="filterValue" (ngModelChange)="updateAssignmentsTable()" placeholder="Recherche" />
+        </mat-form-field>
+
+        <div class="filterRendu">
+            <h4>Rendu : </h4>
+            <mat-checkbox matInput [(ngModel)]="filterRendu>filterRendu" (ngModelChange)="updateAssignmentsTable()"></mat-checkbox>
+        </div>
+
+
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
             <!-- Position Column -->
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header (sortChange)="sortData(sort)"> ID </th>
                 <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-              </ng-container>
+            </ng-container>
 
             <!-- Name Column -->
             <ng-container matColumnDef="nom">
@@ -47,8 +57,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
         </table>
 
-        <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]"
-            (page)="updatePage($event)" aria-label="Select page">
+        <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" (page)="updatePage($event)" aria-label="Select page">
         </mat-paginator>
     </main>
 </body>
