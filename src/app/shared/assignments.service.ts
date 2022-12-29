@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Assignment } from '../assignments/assignment.model';
+import { Assignment } from './model/assignment.model';
 import { forkJoin, Observable, of } from 'rxjs';
 import {LoggingService} from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

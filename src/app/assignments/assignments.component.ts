@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssignmentsService } from '../shared/assignments.service';
-import { Assignment } from './assignment.model';
+import { Assignment } from '../shared/model/assignment.model';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
