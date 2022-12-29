@@ -9,6 +9,8 @@ import { CommentsService } from '../shared/comments.service';
 import { Comment } from '../shared/model/comment.model';
 import { SubjectService } from '../shared/subject.service';
 import { Subject } from '../shared/model/subject.model';
+import { UserService } from '../shared/user.service';
+import { User } from '../shared/model/user.model';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -21,8 +23,9 @@ export class AssignmentDetailComponent implements OnInit {
   teacher!: Teacher;
   comments!:Comment[];
   subject!: Subject;
+  teacherUser!: User;
 
-  constructor(private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
+  constructor(private userService: UserService, private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAssignment();
@@ -50,6 +53,7 @@ export class AssignmentDetailComponent implements OnInit {
       this.getTeacher(assignment.teacher_id);
       this.getComments(assignment.id);
       this.getSubject(assignment.subject_id);
+      this.getTeacherUser(assignment.teacher_id);
     });
   }
 
@@ -68,8 +72,12 @@ export class AssignmentDetailComponent implements OnInit {
   getSubject(assignmentId: Number) {
     this.subjectService.getSubject(assignmentId).subscribe(subject => {
       this.subject = subject;
-      console.log("subject : ");
-      console.log(this.subject);
+    });
+  }
+
+  getTeacherUser(assignmentId: Number) {
+    this.userService.getUser(assignmentId).subscribe(user => {
+      this.teacherUser = user;
     });
   }
 

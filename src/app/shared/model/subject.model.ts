@@ -1,6 +1,6 @@
 export class Subject {
     _id?: string;
     id!: Number;
-    titre!: string;
+    title!: string;
     picture!: string;
 }
