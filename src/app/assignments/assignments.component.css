@@ -6,14 +6,34 @@
     color: red;
 }
 
-.container
-{
+.container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.ajouterBtn
-{
+.ajouterBtn {
     align-self: flex-end;
+}
+
+.mat-row:hover {
+    cursor: pointer;
+}
+
+.mat-header-row {
+    position: sticky;
+    top: 0;
+}
+
+th {
+    color: black;
+    font-size: larger;
+}
+
+.filterRendu {
+    display: flex;
+}
+
+.filterRendu>* {
+    margin-right: 10px;
 }

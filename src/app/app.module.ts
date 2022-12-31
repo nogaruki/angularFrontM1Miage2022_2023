@@ -26,6 +26,10 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
 import { AuthGuard } from './shared/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatTableModule } from '@angular/material/table';
+
+import { MatSortModule } from '@angular/material/sort';
+
 const routes: Route[] = [
   // http://localhost:4200/
   { path: '', component: AssignmentsComponent },
@@ -76,7 +80,9 @@ const routes: Route[] = [
     RouterModule.forRoot(routes),
     MatSlideToggleModule,
     HttpClientModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
