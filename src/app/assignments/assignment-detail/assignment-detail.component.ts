@@ -1,16 +1,15 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
-import { Assignment } from '../shared/model/assignment.model';
-import { AssignmentsService } from '../shared/assignments.service';
+import { Assignment } from '../../shared/model/assignment.model';
+import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../shared/auth.service';
-import { TeacherService } from '../shared/teacher.service';
-import { Teacher } from '../shared/model/teacher.model';
-import { CommentsService } from '../shared/comments.service';
-import { Comment } from '../shared/model/comment.model';
-import { SubjectService } from '../shared/subject.service';
-import { Subject } from '../shared/model/subject.model';
-import { UserService } from '../shared/user.service';
-import { User } from '../shared/model/user.model';
+import { AuthService } from '../../shared/auth.service';
+import { TeacherService } from '../../shared/teacher.service';
+import { Teacher } from '../../shared/model/teacher.model';
+import { CommentsService } from '../../shared/comments.service';
+import { Comment } from '../../shared/model/comment.model';
+import { SubjectService } from '../../shared/subject.service';
+import { Subject } from '../../shared/model/subject.model';
+import { Student } from '../../shared/model/student.model';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -23,9 +22,9 @@ export class AssignmentDetailComponent implements OnInit {
   teacher!: Teacher;
   comments!:Comment[];
   subject!: Subject;
-  teacherUser!: User;
+  teacherUser!: Teacher;
 
-  constructor(private userService: UserService, private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
+  constructor(private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getAssignment();
@@ -53,7 +52,6 @@ export class AssignmentDetailComponent implements OnInit {
       this.getTeacher(assignment.teacher_id);
       this.getComments(assignment.id);
       this.getSubject(assignment.subject_id);
-      this.getTeacherUser(assignment.teacher_id);
     });
   }
 
@@ -75,11 +73,6 @@ export class AssignmentDetailComponent implements OnInit {
     });
   }
 
-  getTeacherUser(assignmentId: Number) {
-    this.userService.getUser(assignmentId).subscribe(user => {
-      this.teacherUser = user;
-    });
-  }
 
   onclickEdit() {
     this.router.navigate(['/assignment', this.assignementTransmis.id, 'edit'],

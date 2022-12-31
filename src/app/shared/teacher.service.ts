@@ -24,4 +24,12 @@ export class TeacherService {
   getTeacher(id:Number):Observable<Teacher> {
     return this.http.get<Teacher>(this.url + "/"+ id)
   }
+
+  register (teacher:Teacher):Observable<any> {
+    return this.http.post<Teacher>(this.url +"/register" , teacher, this.HttpOptions);
+  }
+
+  login (password:string, username:string):Observable<any> {
+    return this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
+  }
 }

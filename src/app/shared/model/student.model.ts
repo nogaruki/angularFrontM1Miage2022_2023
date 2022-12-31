@@ -1,6 +1,5 @@
-export class Teacher {
+export class Student {
     _id?: string;
-    picture!: string //UR
     nom!: string;
     prenom!: string;
     email!: string;
