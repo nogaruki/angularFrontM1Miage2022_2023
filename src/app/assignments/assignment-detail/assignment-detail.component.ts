@@ -39,10 +39,16 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onAssignementRendu() {
-    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => {
-      console.log(message)
+    if (this.assignementTransmis.note == undefined) {
+      console.error("Assignment not marked, so rendu can't be true");
       this.router.navigate(['/home']);
-    });
+    } else {
+      this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => {
+        console.log(message)
+        this.router.navigate(['/home']);
+      });
+    }
+
   }
 
   getAssignment() {
