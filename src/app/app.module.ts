@@ -20,7 +20,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
 import { FormsModule } from '@angular/forms';
-import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { AuthGuard } from './shared/auth.guard';
@@ -29,6 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 
 import { MatSortModule } from '@angular/material/sort';
+import { StudentAuthComponent } from './students/student-auth/student-auth.component';
+import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
 
 const routes: Route[] = [
   // http://localhost:4200/
@@ -50,6 +52,11 @@ const routes: Route[] = [
     canActivate: [AuthGuard]  
    },
 
+   // http://localhost:4200/teacher/auth
+  { path: 'teacher/auth', component: TeacherAuthComponent },
+
+  // http://localhost:4200/student/auth
+  { path: 'student/auth', component: StudentAuthComponent },
   
 ];
 
@@ -62,6 +69,8 @@ const routes: Route[] = [
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
+    StudentAuthComponent,
+    TeacherAuthComponent,
   ],
   imports: [
     BrowserModule,
