@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Teacher } from 'src/app/shared/model/teacher.model';
 import { TeacherService } from 'src/app/shared/teacher.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-teacher-auth',
   templateUrl: './teacher-auth.component.html',
@@ -9,7 +9,7 @@ import { TeacherService } from 'src/app/shared/teacher.service';
 })
 export class TeacherAuthComponent implements OnInit {
 
-  constructor(private teacherService: TeacherService) { }
+  constructor(private teacherService: TeacherService, private router: Router) { }
 
   isSignInForm: boolean = true;
   nom!: string;
@@ -84,6 +84,10 @@ export class TeacherAuthComponent implements OnInit {
         alert('Veuillez remplir tous les champs');
         return;
       } 
+      if(this.password.length > 24) { 
+        alert('Le mot de passe doit contenir moins de 24 caractères');
+        return;
+      }
       if(this.password !== this.confirmPassword) {
         alert('Les mots de passe ne correspondent pas');
         return;
@@ -104,6 +108,10 @@ export class TeacherAuthComponent implements OnInit {
       newTeacher.picture = this.picture;
       
       this.teacherService.register(newTeacher).subscribe( message => console.log(message));
+
+      setTimeout(() => {
+        this.router.navigate(['/teacher/profile']);
+      }, 5000);
     }
   }
 }

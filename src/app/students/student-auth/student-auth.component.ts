@@ -2,15 +2,15 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import * as e from 'express';
 import { Student } from 'src/app/shared/model/student.model';
 import { StudentService } from 'src/app/shared/student.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-student-auth',
   templateUrl: './student-auth.component.html',
   styleUrls: ['./student-auth.component.css']
 })
-export class StudentAuthComponent implements OnInit {
+export class StudentAuthComponent implements OnInit  {
 
-  constructor(private studentService: StudentService) { }
+  constructor(private studentService: StudentService, private router: Router) { }
   isSignInForm: boolean = true;
   nom!: string;
   prenom!: string;
@@ -83,6 +83,10 @@ export class StudentAuthComponent implements OnInit {
         alert('Veuillez remplir tous les champs');
         return;
       } 
+      if(this.password.length > 24) { 
+        alert('Le mot de passe doit contenir moins de 24 caractères');
+        return;
+      }
       if(this.password !== this.confirmPassword) {
         alert('Les mots de passe ne correspondent pas');
         return;
@@ -102,6 +106,10 @@ export class StudentAuthComponent implements OnInit {
       newStudent.username = this.username;
       
       this.studentService.register(newStudent).subscribe( message => console.log(message));
+
+      setTimeout(() => {
+        this.router.navigate(['/student/profile']);
+      }, 5000);
     }
   }
 

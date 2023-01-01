@@ -11,29 +11,29 @@
     <div ng-app ng-init="checked = false">
                 <form class="form-signin" action="" method="post" name="form">
           <label for="username">Nom d'utilisateur</label>
-          <input class="form-styling" type="text" name="username" placeholder=""/>
+          <input class="form-styling" type="text" [(ngModel)]="username" name="username" placeholder=""/>
           <label for="password">Mot de passe</label>
-          <input class="form-styling" type="password" name="password" placeholder=""/>
+          <input class="form-styling" [(ngModel)]="password" type="password" name="password" placeholder=""/>
           <input type="checkbox" id="checkbox"/>
           <div class="btn-animate">
-            <a class="btn-signin">Connexion</a>
+            <a class="btn-signin" (click)="onSubmit()">Connexion</a>
           </div>
                 </form>
         
         <form class="form-signup" action="" method="post" name="form">
             <label for="fullname">Nom d'utilisateur</label>
-            <input class="form-styling" type="text"  name="username" placeholder=""/>
+            <input class="form-styling" [(ngModel)]="username" type="text"  name="username" placeholder=""/>
             <label for="fullname">Nom</label>
-            <input class="form-styling" type="text" name="name" placeholder=""/>
+            <input class="form-styling" [(ngModel)]="nom" type="text" name="nom" placeholder=""/>
             <label for="fullname">Prénom</label>
-            <input class="form-styling" type="text" name="surname" placeholder=""/>
+            <input class="form-styling" [(ngModel)]="prenom" type="text" name="prenom" placeholder=""/>
             <label for="email">Email</label>
-            <input class="form-styling" type="email" name="email" placeholder=""/>
+            <input class="form-styling" [(ngModel)]="email" type="email" name="email" placeholder=""/>
             <label for="password">Mot de passe</label>
-            <input class="form-styling" type="password" name="password" placeholder=""/>
+            <input class="form-styling" [(ngModel)]="password" type="password" name="password" placeholder=""/>
             <label for="confirmpassword">Confirmer mot de passe</label>
-            <input class="form-styling" type="password" name="confirmPassword" placeholder=""/>
-            <a ng-click="checked = !checked" class="btn-signup">S'inscrire</a>
+            <input class="form-styling"[(ngModel)]="confirmPassword" type="password" name="confirmPassword" placeholder=""/>
+            <a ng-click="checked = !checked" (click)="onSubmit()" class="btn-signup">S'inscrire</a>
         </form>
       
             <div  class="success">

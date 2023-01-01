@@ -18,11 +18,37 @@ export class StudentService {
   }
   constructor(private http:HttpClient) { }
 
+  getStudent(id:Number):Observable<Student> {
+    return this.http.get<Student>(this.url + "/"+ id)
+  }
+
+  getStudentByToken(token:any):Observable<Student> {
+    this.HttpOptions.headers.append('x-access-token', ""+token);
+    return this.http.get<Student>(this.url)
+  }
+
   register(student: Student){
     return this.http.post<Student>(this.url +"/register" , student, this.HttpOptions);
   }
 
   login(password: string, username: string){
     return this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
+  }
+
+  isLoggedIn():boolean {
+    if(localStorage.getItem('jwt') !== null) {
+      let auth_type = localStorage.getItem('auth_type');
+      if(auth_type !== "student") {
+        let jwt = localStorage.getItem('jwt');
+        this.getStudentByToken(jwt).subscribe(student => {
+          if(student == null) {
+            return false;
+          } else {
+            return true;
+          }
+        });
+      }
+    }
+      return false;
   }
 }

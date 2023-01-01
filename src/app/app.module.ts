@@ -31,6 +31,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { StudentAuthComponent } from './students/student-auth/student-auth.component';
 import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
+import { StudentProfilComponent } from './students/student-profil/student-profil.component';
 
 const routes: Route[] = [
   // http://localhost:4200/
@@ -49,14 +50,31 @@ const routes: Route[] = [
   { 
     path: 'assignment/:id/edit', 
     component: EditAssignmentComponent,
-    canActivate: [AuthGuard]  
-   },
+    canActivate: [AuthGuard],
+    data: { userType: 'teacher' }
+  },
 
    // http://localhost:4200/teacher/auth
   { path: 'teacher/auth', component: TeacherAuthComponent },
 
+  // http://localhost:4200/teacher/profil
+  { 
+    path: 'student/profil',
+    component: StudentProfilComponent,
+    canActivate: [AuthGuard],
+    data: { userType: 'teacher' }
+  },
+
   // http://localhost:4200/student/auth
   { path: 'student/auth', component: StudentAuthComponent },
+
+  // http://localhost:4200/student/profil
+  { 
+    path: 'student/profil',
+    component: StudentProfilComponent,
+    canActivate: [AuthGuard],
+    data: { userType: 'student' }
+   },
   
 ];
 
@@ -71,6 +89,7 @@ const routes: Route[] = [
     EditAssignmentComponent,
     StudentAuthComponent,
     TeacherAuthComponent,
+    StudentProfilComponent,
   ],
   imports: [
     BrowserModule,
