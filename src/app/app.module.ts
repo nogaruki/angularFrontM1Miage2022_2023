@@ -14,8 +14,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
@@ -32,10 +33,11 @@ import { MatSortModule } from '@angular/material/sort';
 import { StudentAuthComponent } from './students/student-auth/student-auth.component';
 import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
 import { StudentProfilComponent } from './students/student-profil/student-profil.component';
+import { HomePageComponent } from './assignments/home-page/home-page.component';
 
 const routes: Route[] = [
   // http://localhost:4200/
-  { path: '', component: AssignmentsComponent },
+  { path: '', component: HomePageComponent },
 
   // http://localhost:4200/home
   { path: 'home', component: AssignmentsComponent },
@@ -90,6 +92,7 @@ const routes: Route[] = [
     StudentAuthComponent,
     TeacherAuthComponent,
     StudentProfilComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,7 +113,8 @@ const routes: Route[] = [
     HttpClientModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,9 +27,8 @@ export class AuthGuard implements CanActivate {
       }
     }
     else if (userType === 'student') {
-      if(localStorage.getItem('auth_type') === 'student' || localStorage.getItem('auth_type') === 'teacher' )
+      if(localStorage.getItem('auth_type') === 'student')
       {
-        
         if(!this.studentService.isLoggedIn()) {
           return this.teacherService.isLoggedIn();
         } else {
@@ -47,6 +46,19 @@ export class AuthGuard implements CanActivate {
 
   isTeacher(): boolean {
     return localStorage.getItem('auth_type') === 'teacher';
+  }
+
+  isStudent(): boolean {
+    return localStorage.getItem('auth_type') === 'student';
+  }
+
+  isInvite(): boolean {
+    return localStorage.getItem('auth_type') === 'invite';
+  }
+
+
+  isLoggedIn(): boolean {
+    return this.isStudent() || this.isTeacher() || this.isInvite();
   }
   
 }
