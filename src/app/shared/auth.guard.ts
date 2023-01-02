@@ -27,10 +27,15 @@ export class AuthGuard implements CanActivate {
       }
     }
     else if (userType === 'student') {
-      if(localStorage.getItem('auth_type') === 'student')
+      if(localStorage.getItem('auth_type') === 'student' || localStorage.getItem('auth_type') === 'teacher' )
       {
-        return this.studentService.isLoggedIn();
-      } else {
+        
+        if(!this.studentService.isLoggedIn()) {
+          return this.teacherService.isLoggedIn();
+        } else {
+          return true;
+        }
+      } else  {
         this.router.navigate(['/home']);
         alert("Vous n'êtes pas un élève");
       }
@@ -38,6 +43,10 @@ export class AuthGuard implements CanActivate {
       this.router.navigate(['/home']);
     }
     return true;
+  }
+
+  isTeacher(): boolean {
+    return localStorage.getItem('auth_type') === 'teacher';
   }
   
 }
