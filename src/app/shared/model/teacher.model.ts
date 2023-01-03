@@ -1,6 +1,9 @@
 export class Teacher {
     _id?: string;
-    id!: Number;
-    user_id!: Number;
-    picture!: string //URL
+    picture!: string //UR
+    nom!: string;
+    prenom!: string;
+    email!: string;
+    password!: string;
+    username!: string;
 }
