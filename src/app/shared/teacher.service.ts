@@ -9,7 +9,7 @@ import { Teacher } from './model/teacher.model';
 export class TeacherService {
 
 
-  private HttpOptions =  {
+  private HttpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
@@ -20,43 +20,45 @@ export class TeacherService {
   //devURL :
   url = "http://localhost:8010/api/teacher";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getTeacher(id:Number):Observable<Teacher> {
-    return this.http.get<Teacher>(this.url + "/"+ id)
+  getTeacher(id: Number): Observable<Teacher> {
+    return this.http.get<Teacher>(this.url + "/" + id)
   }
 
-  getTeacherByToken(token:any):Observable<Teacher> {
-    this.HttpOptions.headers.append('x-access-token', ""+token);
+  getTeacherByToken(token: string): Observable<Teacher> {
+    this.HttpOptions.headers.append('x-access-token', token);
     return this.http.get<Teacher>(this.url)
   }
 
-  register (teacher:Teacher):Observable<any> {
-    let response = this.http.post<Teacher>(this.url +"/register" , teacher, this.HttpOptions);
+  register(teacher: Teacher): Observable<any> {
+    let response = this.http.post<Teacher>(this.url + "/register", teacher, this.HttpOptions);
     return response;
   }
 
-  login (password:string, username:string):Observable<any> {
-    let response = this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
+  login(password: string, username: string): Observable<any> {
+    let response = this.http.post<{}>(this.url + "/login", { password: password, username: username }, this.HttpOptions);
     return response;
   }
 
-  isLoggedIn():boolean {
+  isLoggedIn(): boolean {
 
-    if(localStorage.getItem('jwt') !== null) {
+    if (localStorage.getItem('jwt') !== null) {
       let auth_type = localStorage.getItem('auth_type');
-      if(auth_type !== "teacher") {
+      if (auth_type !== "teacher") {
         let jwt = localStorage.getItem('jwt');
-        this.getTeacherByToken(jwt).subscribe(teacher => {
-          if(teacher == null) {
-            return false;
-          } else {
-            return true;
-          }
-        });
+        if (jwt) {
+          this.getTeacherByToken(jwt).subscribe(teacher => {
+            if (teacher == null) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+        }
       }
     }
-      return false;
+    return false;
   }
 
 }
