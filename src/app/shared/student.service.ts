@@ -3,7 +3,7 @@ import { Assignment } from './model/assignment.model';
 import { forkJoin, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from  'rxjs/operators';
-import { Student } from './model/user.model';
+import { Student } from './model/student.model';
 
 @Injectable({
   providedIn: 'root'

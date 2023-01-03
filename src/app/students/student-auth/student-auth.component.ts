@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import * as e from 'express';
-import { Student } from 'src/app/shared/model/user.model';
+import { Student } from 'src/app/shared/model/student.model';
 import { StudentService } from 'src/app/shared/student.service';
 import { Router } from '@angular/router';
 @Component({
