@@ -51,6 +51,7 @@ export class AssignmentDetailComponent implements OnInit {
       this.getTeacher(assignment.teacher_id);
       this.getComments(assignment.id);
       this.getSubject(assignment.subject_id);
+      this.getTeacherUser(assignment.teacher_id);
     });
   }
 
@@ -72,6 +73,9 @@ export class AssignmentDetailComponent implements OnInit {
     });
   }
 
+  getTeacherUser(assignmentId: Number) {
+    
+  }
 
   onclickEdit() {
     this.router.navigate(['/assignment', this.assignementTransmis.id, 'edit'],
