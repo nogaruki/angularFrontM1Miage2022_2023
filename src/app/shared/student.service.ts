@@ -27,23 +27,13 @@ export class StudentService {
     return this.http.get<Student>(this.url)
   }
 
-  register (student:Student):Observable<Teacher> {
-    let response = this.http.post<Teacher>(this.url +"/register" , student, this.HttpOptions);
-    let result = JSON.stringify(response);
-    let auth_type = result[0];
-    let token = result[1];
-    localStorage.setItem('auth_type', auth_type);
-    localStorage.setItem('jwt', token);
+  register (student:Student):Observable<any> {
+    let response = this.http.post<Student>(this.url +"/register" , student, this.HttpOptions);
     return response;
   }
 
-  login (password:string, username:Student):Observable<any> {
+  login (password:string, username:string):Observable<any> {
     let response = this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
-    let result = JSON.stringify(response);
-    let auth_type = result[0];
-    let token = result[1];
-    localStorage.setItem('auth_type', auth_type);
-    localStorage.setItem('jwt', token);
     return response;
   }
 

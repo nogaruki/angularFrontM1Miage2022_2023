@@ -31,23 +31,13 @@ export class TeacherService {
     return this.http.get<Teacher>(this.url)
   }
 
-  register (teacher:Teacher):Observable<Teacher> {
+  register (teacher:Teacher):Observable<any> {
     let response = this.http.post<Teacher>(this.url +"/register" , teacher, this.HttpOptions);
-    let result = JSON.stringify(response);
-    let auth_type = result[0];
-    let token = result[1];
-    localStorage.setItem('auth_type', auth_type);
-    localStorage.setItem('jwt', token);
     return response;
   }
 
   login (password:string, username:string):Observable<any> {
     let response = this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
-    let result = JSON.stringify(response);
-    let auth_type = result[0];
-    let token = result[1];
-    localStorage.setItem('auth_type', auth_type);
-    localStorage.setItem('jwt', token);
     return response;
   }
 

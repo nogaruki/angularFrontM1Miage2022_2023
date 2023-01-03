@@ -60,5 +60,10 @@ export class AuthGuard implements CanActivate {
   isLoggedIn(): boolean {
     return this.isStudent() || this.isTeacher() || this.isInvite();
   }
+
+  logOut() {
+    console.log("deconnexion")
+    localStorage.clear();
+  }
   
 }
