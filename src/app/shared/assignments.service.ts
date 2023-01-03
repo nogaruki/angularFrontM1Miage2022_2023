@@ -70,7 +70,6 @@ export class AssignmentsService {
     let deleteURI = this.url + "/" +  assignment._id;
     return this.http.delete(deleteURI);
   }
-  
   private handleError<T>(operation: string, result?: T) {
     return (error: any) : Observable<T> => {
         console.error(error);

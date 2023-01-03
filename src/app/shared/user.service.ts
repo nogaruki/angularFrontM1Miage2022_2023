@@ -1,27 +1,28 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Teacher } from './model/teacher.model';
+import { User } from './model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherService {
+export class UserService {
 
   private HttpOptions =  {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
   }
+
   //prodURL :
   //url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
 
   //devURL :
-  url = "http://localhost:8010/api/teacher";
+  url = "http://localhost:8010/api/user";
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getTeacher(id:Number):Observable<Teacher> {
-    return this.http.get<Teacher>(this.url + "/"+ id)
+  getUser(id:Number):Observable<User> {
+    return this.http.get<User>(this.url + "/"+ id)
   }
 }
