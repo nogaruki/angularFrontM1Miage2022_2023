@@ -1,25 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './shared/auth.service';
+import { AuthGuard } from './shared/auth.guard';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   title = 'Application de gestion des devoirs à rendre (Assignments)';  
 
-  constructor (private authService: AuthService, private router: Router) {}
+  constructor (private router: Router, private authGuard: AuthGuard) {}
 
-  login() {
-    if(!this.authService.loggedIn) {
-      this.authService.logIn();
-    } else {
-      this.authService.logout();
-      this.router.navigate(['/home']);
-    }
+  isLogin() {
+    return this.authGuard.isLoggedIn();
   }
 
 
- 
 }

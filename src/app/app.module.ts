@@ -14,13 +14,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox'
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
 import { FormsModule } from '@angular/forms';
-import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { AuthGuard } from './shared/auth.guard';
@@ -29,10 +30,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 
 import { MatSortModule } from '@angular/material/sort';
+import { StudentAuthComponent } from './students/student-auth/student-auth.component';
+import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
+import { StudentProfilComponent } from './students/student-profil/student-profil.component';
+import { HomePageComponent } from './assignments/home-page/home-page.component';
 
 const routes: Route[] = [
   // http://localhost:4200/
-  { path: '', component: AssignmentsComponent },
+  { path: '', component: HomePageComponent },
 
   // http://localhost:4200/home
   { path: 'home', component: AssignmentsComponent },
@@ -47,9 +52,31 @@ const routes: Route[] = [
   { 
     path: 'assignment/:id/edit', 
     component: EditAssignmentComponent,
-    canActivate: [AuthGuard]  
-   },
+    canActivate: [AuthGuard],
+    data: { userType: 'teacher' }
+  },
 
+   // http://localhost:4200/teacher/auth
+  { path: 'teacher/auth', component: TeacherAuthComponent },
+
+  // http://localhost:4200/teacher/profil
+  { 
+    path: 'student/profil',
+    component: StudentProfilComponent,
+    canActivate: [AuthGuard],
+    data: { userType: 'teacher' }
+  },
+
+  // http://localhost:4200/student/auth
+  { path: 'student/auth', component: StudentAuthComponent },
+
+  // http://localhost:4200/student/profil
+  { 
+    path: 'student/profil',
+    component: StudentProfilComponent,
+    canActivate: [AuthGuard],
+    data: { userType: 'student' }
+   },
   
 ];
 
@@ -62,6 +89,10 @@ const routes: Route[] = [
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
+    StudentAuthComponent,
+    TeacherAuthComponent,
+    StudentProfilComponent,
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +113,8 @@ const routes: Route[] = [
     HttpClientModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
