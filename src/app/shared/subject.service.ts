@@ -13,4 +13,8 @@ export class SubjectService {
   getSubject(id:Number):Observable<Subject> {
     return this.http.get<Subject>(this.url + "/"+ id)
   }
+
+  getAllSubject():Observable<Subject[]> {
+    return this.http.get<Subject[]>(this.url + "s/")
+  }
 }
