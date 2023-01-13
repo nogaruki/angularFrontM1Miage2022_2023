@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { Teacher } from './model/teacher.model';
+import {Student} from "./model/student.model";
 
 @Injectable({
   providedIn: 'root'
@@ -61,4 +62,7 @@ export class TeacherService {
     return false;
   }
 
+  updateTeacher(teacher:Teacher):Observable<any> {
+    return this.http.post<{}>(this.url + "/update", teacher, this.HttpOptions);
+  }
 }

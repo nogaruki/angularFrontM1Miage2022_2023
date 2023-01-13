@@ -3,9 +3,6 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { StudentService } from './student.service';
 import { TeacherService } from './teacher.service';
-import { Teacher } from './model/teacher.model';
-import { Student } from './model/student.model';
-import * as e from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +14,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const userType = route.data["userType"];
+
     if (userType === 'teacher') {
       if(localStorage.getItem('auth_type') === 'teacher')
       {
@@ -29,11 +27,7 @@ export class AuthGuard implements CanActivate {
     else if (userType === 'student') {
       if(localStorage.getItem('auth_type') === 'student')
       {
-        if(!this.studentService.isLoggedIn()) {
-          return this.teacherService.isLoggedIn();
-        } else {
-          return true;
-        }
+         return this.studentService.isLoggedIn();
       } else  {
         this.router.navigate(['/home']);
         alert("Vous n'êtes pas un élève");
@@ -65,5 +59,8 @@ export class AuthGuard implements CanActivate {
     console.log("deconnexion")
     localStorage.clear();
   }
-  
+
+  getToken() {
+    return localStorage.getItem('jwt');
+  }
 }

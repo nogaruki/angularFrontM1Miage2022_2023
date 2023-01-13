@@ -1,14 +1,3 @@
-html,
-body * {
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-}
-
-body {
-    background-color: #ABCDEF;
-    background: -webkit-linear-gradient(to bottom, white, #ABCDEF);
-    background: linear-gradient(to bottom, white, #ABCDEF);
-}
 
 .container {
     width: 100%;
@@ -114,7 +103,7 @@ li {
 
 .form-signup {
     overflow-y: scroll;
-    height: 550px;
+    height: 435px;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
@@ -192,7 +181,7 @@ label {
     outline: none;
 }
 
-.btn-signup {
+.btn-sign {
     float: left;
     font-weight: 700;
     text-transform: uppercase;
@@ -208,15 +197,7 @@ label {
     background-color: #1059FF;
 }
 
-.btn-signin {
-    float: left;
-    padding-top: 8px;
-    width: 100%;
-    height: 35px;
-    border: none;
-    border-radius: 20px;
-    margin-top: -8px;
-}
+
 
 .btn-animate {
     float: left;
@@ -247,8 +228,7 @@ label {
     background-color: rgba(255, 255, 255, 1);
 }
 
-a.btn-signup:hover,
-a.btn-signin:hover {
+btn-sign:hover{
     cursor: pointer;
     background-color: #0F4FE6;
     transition: background-color .5s;

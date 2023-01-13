@@ -1,7 +1,7 @@
-<div *ngIf="!isLoggedIn">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+  <body>
+    <div *ngIf="!isLoggedIn">
 
-    <body>
         <div class="container">
             <div class="frame">
                 <div class="nav">
@@ -10,31 +10,29 @@
                         <li class="signup-inactive"><a class="btn">Sign up </a></li>
                     </ul>
                 </div>
-                <div ng-app ng-init="checked = false">
-                    <form class="form-signin" action="" method="post" name="form">
-                        <label for="username">Nom d'utilisateur</label>
-                        <input class="form-styling" type="text" [(ngModel)]="username" name="username" placeholder="" />
-                        <label for="password">Mot de passe</label>
-                        <input class="form-styling" [(ngModel)]="password" type="password" name="password" placeholder="" />
-                        <div class="btn-animate">
-                            <a class="btn-signin" (click)="onSubmit()">Connexion</a>
-                        </div>
+                <div>
+                    <form class="form-signin" [formGroup]="loginForm" method="post" name="form" (ngSubmit)="login()">
+                        <label for="LoginUsername">Nom d'utilisateur</label>
+                        <input class="form-styling" type="text"  formControlName="username" id="LoginUsername" placeholder="" />
+                        <label for="Loginpassword">Mot de passe</label>
+                        <input class="form-styling" formControlName="password" type="password" id="Loginpassword" placeholder="" />
+                      <button class="btn-animate btn-sign" type="submit" name="submit" id="submit">Connexion</button>
                     </form>
 
-                    <form class="form-signup" action="" method="post" name="form">
-                        <label for="fullname">Nom d'utilisateur</label>
-                        <input class="form-styling" [(ngModel)]="username" type="text" name="username" placeholder="" />
-                        <label for="fullname">Nom</label>
-                        <input class="form-styling" [(ngModel)]="nom" type="text" name="nom" placeholder="" />
-                        <label for="fullname">Prénom</label>
-                        <input class="form-styling" [(ngModel)]="prenom" type="text" name="prenom" placeholder="" />
+                    <form class="form-signup" action="" [formGroup]="registerForm" method="post" name="form" (ngSubmit)="register()">
+                        <label for="Registerusername">Nom d'utilisateur</label>
+                        <input class="form-styling" formControlName="username" type="text" id="Registerusername" placeholder="" />
+                        <label for="nom">Nom</label>
+                        <input class="form-styling" formControlName="nom" type="text" id="nom" placeholder="" />
+                        <label for="prenom">Prénom</label>
+                        <input class="form-styling" formControlName="prenom" type="text" id="prenom" placeholder="" />
                         <label for="email">Email</label>
-                        <input class="form-styling" [(ngModel)]="email" type="email" name="email" placeholder="" />
+                        <input class="form-styling" formControlName="email" type="email" id="email" placeholder="" />
                         <label for="password">Mot de passe</label>
-                        <input class="form-styling" [(ngModel)]="password" type="password" name="password" placeholder="" />
+                        <input class="form-styling" formControlName="password" type="password" id="password" placeholder="" />
                         <label for="confirmpassword">Confirmer mot de passe</label>
-                        <input class="form-styling" [(ngModel)]="confirmPassword" type="password" name="confirmPassword" placeholder="" />
-                        <a ng-click="checked = !checked" (click)="onSubmit()" class="btn-signup">S'inscrire</a>
+                        <input class="form-styling" formControlName="confirmPassword" type="password" id="confirmPassword" placeholder="" />
+                        <button class="btn-animate btn-sign" type="submit" name="submit" >Inscription</button>
                     </form>
 
                     <div class="success">
@@ -63,10 +61,12 @@
       </svg>
             </a>
         </div>
-    </body>
-</div>
-<div *ngIf="isLoggedIn">
-    <p>Vous êtes déjà connecté</p>
+    </div>
+    <div *ngIf="isLoggedIn">
+      <p>Vous êtes déjà connecté</p>
 
-    <button (click)="logOut()">Se déconnecter</button>
-</div>
+      <button (click)="logOut()">Se déconnecter</button>
+    </div>
+  </body>
+
+

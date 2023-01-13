@@ -36,6 +36,7 @@ import { StudentAuthComponent } from './students/student-auth/student-auth.compo
 import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
 import { StudentProfilComponent } from './students/student-profil/student-profil.component';
 import { HomePageComponent } from './assignments/home-page/home-page.component';
+import { TeacherProfileComponent } from './teacher/teacher-profile/teacher-profile.component';
 
 const routes: Route[] = [
   // http://localhost:4200/
@@ -51,8 +52,8 @@ const routes: Route[] = [
   { path: 'assignment/:id', component: AssignmentDetailComponent },
 
   //http://localhost:4200/edit/id
-  { 
-    path: 'assignment/:id/edit', 
+  {
+    path: 'assignment/:id/edit',
     component: EditAssignmentComponent,
     canActivate: [AuthGuard],
     data: { userType: 'teacher' }
@@ -62,24 +63,24 @@ const routes: Route[] = [
   { path: 'teacher/auth', component: TeacherAuthComponent },
 
   // http://localhost:4200/teacher/profil
-  { 
-    path: 'student/profil',
+  {
+    path: 'student/profile',
     component: StudentProfilComponent,
     canActivate: [AuthGuard],
-    data: { userType: 'teacher' }
+    data: { userType: 'student' }
   },
 
   // http://localhost:4200/student/auth
   { path: 'student/auth', component: StudentAuthComponent },
 
   // http://localhost:4200/student/profil
-  { 
-    path: 'student/profil',
+  {
+    path: 'student/profile',
     component: StudentProfilComponent,
     canActivate: [AuthGuard],
     data: { userType: 'student' }
    },
-  
+
 ];
 
 
@@ -95,6 +96,7 @@ const routes: Route[] = [
     TeacherAuthComponent,
     StudentProfilComponent,
     HomePageComponent,
+    TeacherProfileComponent,
   ],
   imports: [
     BrowserModule,

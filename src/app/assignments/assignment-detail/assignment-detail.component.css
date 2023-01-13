@@ -1,5 +1,58 @@
-#bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+.card {
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
+  padding: 10px;
 }
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.teacher-section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.subject-section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+}
+.subject-section div {
+  margin-bottom: 70px;
+}
+
+.btn-section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+}
+
+.btn-section .btn {
+  flex-direction: row;
+}
+
+.btn-section .btn button {
+  margin: 10px;
+}
+
+

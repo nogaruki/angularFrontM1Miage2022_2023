@@ -9,6 +9,8 @@ import { Comment } from '../../shared/model/comment.model';
 import { SubjectService } from '../../shared/subject.service';
 import { Subject } from '../../shared/model/subject.model';
 import { AuthGuard } from 'src/app/shared/auth.guard';
+import {StudentService} from "../../shared/student.service";
+import {Student} from "../../shared/model/student.model";
 
 @Component({
   selector: 'app-assignment-detail',
@@ -22,11 +24,12 @@ export class AssignmentDetailComponent implements OnInit {
   comments!:Comment[];
   subject!: Subject;
   teacherUser!: Teacher;
-
-  constructor(private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authGuard: AuthGuard) { }
+  students!: Student[];
+  constructor(private studentService: StudentService, private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authGuard: AuthGuard) { }
 
   ngOnInit(): void {
     this.getAssignment();
+    this.getStudents();
   }
 
   onDeleteAssignmentBtnClick() {
@@ -74,7 +77,7 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   getTeacherUser(assignmentId: Number) {
-    
+
   }
 
   onclickEdit() {
@@ -84,5 +87,13 @@ export class AssignmentDetailComponent implements OnInit {
 
   isAdmin(): boolean {
     return this.authGuard.isTeacher();
+  }
+
+  getStudents() {
+    this.assignementTransmis.students_id.forEach(studentId => {
+      this.studentService.getStudent(studentId).subscribe(student => {
+        this.students.push(student);
+      });
+    });
   }
 }

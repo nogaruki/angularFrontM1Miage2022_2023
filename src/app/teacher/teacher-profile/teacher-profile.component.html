@@ -2,16 +2,16 @@
   <header>
     <!-- here’s the avatar -->
     <a>
-      <img src="https://www.w3schools.com/howto/img_avatar.png" class="hoverZoomLink">
+      <img src="{{teacher.picture}}" class="hoverZoomLink">
     </a>
     <!-- Display student firtsname and name -->
     <h1>
-      Bonjours, {{student.nom}} {{student.prenom}}
+      Bonjours, {{teacher.nom}} {{teacher.prenom}}
     </h1>
 
   </header>
   <div class="profile-bio">
-    <form class="form-update" action="" [formGroup]="studentForm" method="post" name="form" (ngSubmit)="update()">
+    <form class="form-update" action="" [formGroup]="teacherForm" method="post" name="form" (ngSubmit)="update()">
       <label for="username">Nom d'utilisateur</label>
       <input class="form-styling" type="text" formControlName="username" id="username" name="username" placeholder="" />
       <label for="name">Nom</label>

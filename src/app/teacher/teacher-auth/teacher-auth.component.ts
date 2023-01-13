@@ -3,6 +3,8 @@ import { Teacher } from 'src/app/shared/model/teacher.model';
 import { TeacherService } from 'src/app/shared/teacher.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth.guard';
+import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+
 @Component({
   selector: 'app-teacher-auth',
   templateUrl: './teacher-auth.component.html',
@@ -10,21 +12,29 @@ import { AuthGuard } from 'src/app/shared/auth.guard';
 })
 export class TeacherAuthComponent implements OnInit {
 
-  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard) { }
+  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder) { }
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
 
-  isSignInForm: boolean = true;
-  nom!: string;
-  prenom!: string;
-  email!: string;
-  password!: string;
-  confirmPassword!: string;
-  username!: string;
-  picture!: string;
   isLoggedIn: boolean = false;
+
   ngOnInit(): void {
     if(this.authGuard.isLoggedIn() && this.authGuard.isTeacher()) {
       this.isLoggedIn = true;
     }
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+    this.registerForm = this.fb.group({
+      nom: ['', [Validators.required, Validators.minLength(3)]],
+      prenom: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      picture: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
 
   logOut() {
@@ -36,9 +46,6 @@ export class TeacherAuthComponent implements OnInit {
   @HostListener('click', ['$event.target'])
   onClick(target: HTMLElement) {
     if (target.classList.contains('btn')) {
-
-      this.isSignInForm = !this.isSignInForm;
-
       const frame = document.querySelector('.frame') as HTMLElement;
       const formSignup = document.querySelector('.form-signup') as HTMLElement;
       const signupInactive = document.querySelector('.signup-inactive') as HTMLElement;
@@ -49,8 +56,48 @@ export class TeacherAuthComponent implements OnInit {
       frame.classList.toggle('frame-long');
       signupInactive.classList.toggle('signup-active');
       signinActive.classList.toggle('signin-inactive');
+    }
 
-    } else if (target.classList.contains('btn-signup')) {
+  }
+
+  register() {
+    //verifier si le registerFom est valide
+    if (this.registerForm?.invalid) {
+      alert('Veuillez remplir tous les champs');
+      return;
+    }
+
+    //verifier si le mot de passe < 6 caractères
+    if (this.registerForm?.get('password')?.value.length < 6) {
+      alert('Le mot de passe doit contenir au moins 6 caractères');
+      return;
+    }
+
+    //verifier si les deux mots de passe dans registerFom sont identiques
+    if (this.registerForm?.get('password')?.value !== this.registerForm?.get('confirmPassword')?.value) {
+      alert('Les deux mots de passe ne sont pas identiques');
+      return;
+    }
+
+    //vérifier si le mail dans registerForm est valide
+    if(!this.registerForm?.get('email')?.valid) {
+      alert('Veuillez saisir un email valide');
+      return;
+    }
+
+      const newTeacher = new Teacher();
+      newTeacher.nom = this.registerForm?.get('nom')?.value;
+      newTeacher.prenom = this.registerForm?.get('prenom')?.value;
+      newTeacher.email = this.registerForm?.get('email')?.value;
+      newTeacher.password = this.registerForm?.get('password')?.value;
+      newTeacher.username = this.registerForm?.get('username')?.value;
+      newTeacher.picture =  this.registerForm?.get('picture')?.value;
+
+      this.teacherService.register(newTeacher).subscribe(data => {
+        localStorage.setItem('auth_type', data.auth);
+        localStorage.setItem('jwt', data.token);
+        this.router.navigate(['/home']);
+      });
 
       const nav = document.querySelector('.nav') as HTMLElement;
       const formSignupLeft = document.querySelector('.form-signup-left') as HTMLElement;
@@ -61,70 +108,33 @@ export class TeacherAuthComponent implements OnInit {
       success.classList.toggle('success-left');
       frame.classList.toggle('frame-short');
 
-    } else if (target.classList.contains('btn-signin')) {
-      const btnAnimate = document.querySelector('.btn-animate') as HTMLElement;
-      const success = document.querySelector('.success') as HTMLElement;
-      const frame = document.querySelector('.frame') as HTMLElement;
-
-      btnAnimate.classList.toggle('btn-animate-grow');
-      success.classList.toggle('success-left');
-      frame.classList.toggle('frame-short');
-
-    }
-
+    setTimeout(() => {
+        this.router.navigate(['/teacher/profile']);
+      }, 5000);
   }
 
-  onSubmit() {
-    if (this.isSignInForm) {
-      if (this.username === '' || this.password === '') {
-        alert('Veuillez remplir tous les champs');
-        return;
-      }
+  login() {
+    if (this.loginForm?.invalid) {
+      alert('Veuillez remplir tous les champs');
+      return;
+    }
 
-      this.teacherService.login(this.password, this.username).subscribe(data => {
-        localStorage.setItem('auth_type', data.auth);
-        localStorage.setItem('jwt', data.token);
-        this.router.navigate(['/home']);
-      });
+    const btnAnimate = document.querySelector('.btn-animate') as HTMLElement;
+    const success = document.querySelector('.success') as HTMLElement;
+    const frame = document.querySelector('.frame') as HTMLElement;
 
-    } else {
+    btnAnimate.classList.toggle('btn-animate-grow');
+    success.classList.toggle('success-left');
+    frame.classList.toggle('frame-short');
 
-      if (this.nom === '' || this.prenom === '' || this.email === '' || this.password === '' || this.confirmPassword === '') {
-        alert('Veuillez remplir tous les champs');
-        return;
-      }
-      if (this.password.length > 24) {
-        alert('Le mot de passe doit contenir moins de 24 caractères');
-        return;
-      }
-      if (this.password !== this.confirmPassword) {
-        alert('Les mots de passe ne correspondent pas');
-        return;
-      }
-      //regex email
-      let regex = new RegExp('^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$');
-      if (!regex.test(this.email) || this.email.indexOf('@') === -1) {
-        alert('Veuillez saisir une adresse email valide');
-        return;
-      }
-
-      const newTeacher = new Teacher();
-      newTeacher.nom = this.nom;
-      newTeacher.prenom = this.prenom;
-      newTeacher.email = this.email;
-      newTeacher.password = this.password;
-      newTeacher.username = this.username;
-      newTeacher.picture = this.picture;
-
-      this.teacherService.register(newTeacher).subscribe(data => {
-        localStorage.setItem('auth_type', data.auth);
-        localStorage.setItem('jwt', data.token);
-        this.router.navigate(['/home']);
-      });
-
+    // @ts-ignore
+    this.teacherService.login(this.loginForm?.get('password').value, this.loginForm?.get('username').value).subscribe(data => {
+      localStorage.setItem('auth_type', data.auth);
+      localStorage.setItem('jwt', data.token);
       setTimeout(() => {
         this.router.navigate(['/teacher/profile']);
       }, 5000);
-    }
+    });
+
   }
 }

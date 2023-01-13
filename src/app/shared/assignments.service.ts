@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from './model/assignment.model';
-import { forkJoin, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {LoggingService} from './logging.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from  'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,11 +18,11 @@ export class AssignmentsService {
 
   //devURL :
   url = "http://localhost:8010/api/assignments";
-  
-  constructor (private loggingService:LoggingService, private http:HttpClient) { }
-    
 
-  getAssignments():Observable<Assignment[]> {   
+  constructor (private loggingService:LoggingService, private http:HttpClient) { }
+
+
+  getAssignments():Observable<Assignment[]> {
     // return of (this.assignments);
     return this.http.get<Assignment[]>(this.url)
 
@@ -46,7 +45,7 @@ export class AssignmentsService {
     // }
     // return of(assignment);
     return this.http.get<Assignment>(this.url + "/"+ id)
-    
+
   }
 
   addAssignment(assignment:Assignment):Observable<any> {
@@ -77,6 +76,6 @@ export class AssignmentsService {
 
         return of (result as T)
     }
-  } 
+  }
 }
 

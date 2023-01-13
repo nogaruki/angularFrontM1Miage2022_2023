@@ -9,56 +9,55 @@
 </head>
 
 <body>
-    <h1>Je suis une agenda</h1>
-    <br>
+
     <main class="container">
-        <div class="ajouterBtn">
+      <h1>Liste des assignment</h1>
+         <div class="ajouterBtn">
             <a routerLink="/add">
                 <button class="ajouterBtn" mat-flat-button color="accent" (click)="onAddAssignmentBtnClick()">Ajouter un assignment</button>
             </a>
         </div>
+      <div class="table-responsive">
         <mat-form-field>
-            <input matInput [(ngModel)]="filterValue" (ngModelChange)="updateAssignmentsTable()" placeholder="Recherche" />
+          <input matInput [(ngModel)]="filterValue" (ngModelChange)="updateAssignmentsTable()" placeholder="Recherche" />
         </mat-form-field>
-
         <div class="filterRendu">
-            <h4>Rendu : </h4>
-            <mat-checkbox matInput [(ngModel)]="filterRendu>filterRendu" (ngModelChange)="updateAssignmentsTable()"></mat-checkbox>
+          <h4>Rendu : </h4>
+          <mat-checkbox matInput [(ngModel)]="filterRendu>filterRendu" (ngModelChange)="updateAssignmentsTable()"></mat-checkbox>
         </div>
-
-
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header (sortChange)="sortData(sort)"> ID </th>
-                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-            </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header (sortChange)="sortData(sort)"> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="nom">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
-                <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
-            </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+            <td mat-cell *matCellDef="let element"> {{element.nom}} </td>
+          </ng-container>
 
-            <!-- Weight Column -->
-            <ng-container matColumnDef="dateDeRendu">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de rendu </th>
-                <td mat-cell *matCellDef="let element"> {{element.dateDeRendu}} </td>
-            </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="dateDeRendu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de rendu </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateDeRendu}} </td>
+          </ng-container>
 
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="rendu">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
-                <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
-            </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="rendu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
+            <td mat-cell *matCellDef="let element"> {{element.rendu}} </td>
+          </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
         </table>
 
         <mat-paginator [length]="totalDocs" [pageSize]="limit" [pageSizeOptions]="[10, 25, 50]" (page)="updatePage($event)" aria-label="Select page">
         </mat-paginator>
+      </div>
     </main>
 </body>
 

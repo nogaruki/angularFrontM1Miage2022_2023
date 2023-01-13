@@ -30,14 +30,33 @@ th {
     font-size: larger;
 }
 
-.filterRendu {
-    display: flex;
-}
 
-.filterRendu>* {
-    margin-right: 10px;
-}
 
 .hidden {
     display: none;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive > * {
+  width: 100%;
+}
+
+.filterRendu {
+  display: flex;
+  justify-content: flex-start;
+  align-items: normal;
+  width: 100%;
 }
