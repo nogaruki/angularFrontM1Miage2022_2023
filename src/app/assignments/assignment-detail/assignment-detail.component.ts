@@ -1,15 +1,16 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Assignment } from '../../shared/model/assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../shared/auth.service';
 import { TeacherService } from '../../shared/teacher.service';
 import { Teacher } from '../../shared/model/teacher.model';
 import { CommentsService } from '../../shared/comments.service';
 import { Comment } from '../../shared/model/comment.model';
 import { SubjectService } from '../../shared/subject.service';
 import { Subject } from '../../shared/model/subject.model';
-import { Student } from '../../shared/model/student.model';
+import { AuthGuard } from 'src/app/shared/auth.guard';
+import {StudentService} from "../../shared/student.service";
+import {Student} from "../../shared/model/student.model";
 
 @Component({
   selector: 'app-assignment-detail',
@@ -23,11 +24,12 @@ export class AssignmentDetailComponent implements OnInit {
   comments!:Comment[];
   subject!: Subject;
   teacherUser!: Teacher;
-
-  constructor(private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authService: AuthService) { }
+  students!: Student[];
+  constructor(private studentService: StudentService, private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authGuard: AuthGuard) { }
 
   ngOnInit(): void {
     this.getAssignment();
+    this.getStudents();
   }
 
   onDeleteAssignmentBtnClick() {
@@ -39,16 +41,10 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onAssignementRendu() {
-    if (this.assignementTransmis.note == undefined) {
-      console.error("Assignment not marked, so rendu can't be true");
+    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => {
+      console.log(message)
       this.router.navigate(['/home']);
-    } else {
-      this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => {
-        console.log(message)
-        this.router.navigate(['/home']);
-      });
-    }
-
+    });
   }
 
   getAssignment() {
@@ -58,6 +54,7 @@ export class AssignmentDetailComponent implements OnInit {
       this.getTeacher(assignment.teacher_id);
       this.getComments(assignment.id);
       this.getSubject(assignment.subject_id);
+      this.getTeacherUser(assignment.teacher_id);
     });
   }
 
@@ -79,6 +76,9 @@ export class AssignmentDetailComponent implements OnInit {
     });
   }
 
+  getTeacherUser(assignmentId: Number) {
+
+  }
 
   onclickEdit() {
     this.router.navigate(['/assignment', this.assignementTransmis.id, 'edit'],
@@ -86,6 +86,14 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    return this.authService.loggedIn;
+    return this.authGuard.isTeacher();
+  }
+
+  getStudents() {
+    this.assignementTransmis.students_id.forEach(studentId => {
+      this.studentService.getStudent(studentId).subscribe(student => {
+        this.students.push(student);
+      });
+    });
   }
 }

@@ -1,0 +1,35 @@
+<aside *ngIf="formInitialized"  class="profile-card">
+  <header>
+    <!-- here’s the avatar -->
+    <a>
+      <img src="https://www.w3schools.com/howto/img_avatar.png" class="hoverZoomLink">
+    </a>
+    <!-- Display student firtsname and name -->
+    <h1>
+      Bonjours, {{student.nom}} {{student.prenom}}
+    </h1>
+
+  </header>
+  <div class="profile-bio">
+    <form class="form-update" action="" [formGroup]="studentForm" method="post" name="form" (ngSubmit)="update()">
+      <label for="username">Nom d'utilisateur</label>
+      <input class="form-styling" type="text" formControlName="username" id="username" name="username" placeholder="" />
+      <label for="name">Nom</label>
+      <input class="form-styling" type="text" formControlName="nom" id="name" name="name" placeholder="" />
+      <label for="prenom">Prénom</label>
+      <input class="form-styling" type="text" formControlName="prenom" id="prenom" name="prenom" placeholder="" />
+      <label for="email">Email</label>
+      <input class="form-styling" type="email" formControlName="email" id="email" name="email" placeholder="" />
+      <a class="btn-animate btn-display" (click)="isActif = !isActif">Modifier mot de passe</a>
+      <div *ngIf="isActif">
+        <label for="oldPassword">Ancien mot de passe</label>
+        <input class="form-styling" type="password" formControlName="oldPassword" id="oldPassword" name="oldPassword" placeholder="" />
+        <label for="oldPassword">Nouveau Mot de passe</label>
+        <input class="form-styling" type="password" formControlName="newPassword" id="newPassword" name="oldPassword" placeholder="" />
+        <label for="confirmpassword">Confirmer nouveau mot de passe</label>
+        <input class="form-styling" type="password" formControlName="confirmPassword" id="confirmpassword" name="confirmPassword" placeholder="" />
+      </div>
+      <button class="btn-animate btn-sign" type="submit" name="submit">Modifier</button>
+    </form>
+  </div>
+</aside>

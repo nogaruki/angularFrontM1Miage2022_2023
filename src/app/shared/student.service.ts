@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Assignment } from './model/assignment.model';
-import { forkJoin, Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from  'rxjs/operators';
-import { Student } from './model/student.model';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Student} from './model/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +16,49 @@ export class StudentService {
   }
   constructor(private http:HttpClient) { }
 
-  register(student: Student){
-    return this.http.post<Student>(this.url +"/register" , student, this.HttpOptions);
+  getStudent(id:Number):Observable<Student> {
+    return this.http.get<Student>(this.url + "/"+ id)
   }
 
-  login(password: string, username: string){
-    return this.http.post<{}>(this.url +"/login" , {password: password, username: username}, this.HttpOptions);
+  getStudentByToken(token:any):Observable<Student> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'x-access-token': token
+      })
+    }
+    return this.http.get<Student>(this.url, options);
   }
+
+
+
+  register (student:Student):Observable<any> {
+    return this.http.post<Student>(this.url + "/register", student, this.HttpOptions);
+  }
+
+  updateStudent (student:Student):Observable<any> {
+    return this.http.post<{}>(this.url + "/update", student, this.HttpOptions);
+  }
+
+  login (password:string, username:string):Observable<any> {
+    return this.http.post<{}>(this.url + "/login", {password: password, username: username}, this.HttpOptions);
+  }
+
+  // @ts-ignore
+  async isLoggedIn(): Promise<boolean> {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt !== null) {
+      let auth_type = localStorage.getItem('auth_type');
+      if (auth_type === "student") {
+        return new Promise((resolve) => {
+          this.getStudentByToken(jwt).subscribe(student => {
+            resolve(student !== null);
+          });
+        });
+      }
+    }
+    return Promise.resolve(false);
+  }
+
+
 }

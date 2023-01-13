@@ -1,8 +1,8 @@
 export class Student {
     _id?: string;
-    nom!: string;
-    prenom!: string;
-    email!: string;
-    password!: string;
     username!: string;
+    password!: string;
+    prenom!: string;
+    nom!: string;
+    email!: string;
 }

@@ -7,5 +7,5 @@ export class Assignment {
     note!: Number;
     subject_id!: Number;
     teacher_id!: Number;
-    student_id!: Number
+    students_id!: Number[];
 }
