@@ -36,19 +36,19 @@ export class TeacherProfileComponent implements OnInit {
       picture: ['', [Validators.required, Validators.minLength(3)]],
     });
 
-    // @ts-ignore
-    this.teacherService.getTeacherByToken(token).subscribe((teacher) => {
-      // @ts-ignore
-      this.teacher = teacher;
-      this.teacherForm.patchValue({
-        nom: this.teacher.nom,
-        prenom: this.teacher.prenom,
-        email: this.teacher.email,
-        username: this.teacher.username,
-        picture: this.teacher.picture
+    if(token) {
+      this.teacherService.getTeacherByToken(token).subscribe((teacher) => {
+        this.teacher = teacher;
+        this.teacherForm.patchValue({
+          nom: this.teacher.nom,
+          prenom: this.teacher.prenom,
+          email: this.teacher.email,
+          username: this.teacher.username,
+          picture: this.teacher.picture
+        });
+        this.formInitialized = true;
       });
-      this.formInitialized = true;
-    });
+    }
   }
 
   update() {
@@ -66,7 +66,6 @@ export class TeacherProfileComponent implements OnInit {
       updateTeacher.picture = this.teacherForm.get("picture")?.value;
 
       this.teacherService.updateTeacher(updateTeacher).subscribe((teacher) => {
-        // @ts-ignore
         this.teacher = teacher;
         alert("Vos informations ont été mises à jour");
         this.snackBar.open("Vos informations ont été mises à jour", "Fermer", { duration: 5000 });
