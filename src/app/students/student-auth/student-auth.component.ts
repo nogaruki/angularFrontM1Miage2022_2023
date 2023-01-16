@@ -17,7 +17,7 @@ export class StudentAuthComponent implements OnInit {
   loginForm!: FormGroup;
   registerForm!: FormGroup;
   ngOnInit(): void {
-    if(this.authGuard.isLoggedIn() && this.authGuard.isStudent()) {
+    if(this.authGuard.isLoggedIn()) {
       this.isLoggedIn = true;
     }
 
@@ -122,8 +122,8 @@ export class StudentAuthComponent implements OnInit {
       localStorage.setItem('auth_type', data.auth);
       localStorage.setItem('jwt', data.token);
       setTimeout(() => {
-        this.router.navigate(['/student/profile']);
-      }, 5000);
+        this.router.navigate(['/home']);
+      }, 2000);
     });
   }
 

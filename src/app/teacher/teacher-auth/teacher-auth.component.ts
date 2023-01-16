@@ -19,11 +19,11 @@ export class TeacherAuthComponent implements OnInit {
   isLoggedIn: boolean = false;
 
   ngOnInit(): void {
-    if(this.authGuard.isLoggedIn() && this.authGuard.isTeacher()) {
+    if(this.authGuard.isLoggedIn()) {
       this.isLoggedIn = true;
     }
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
     this.registerForm = this.fb.group({
@@ -119,11 +119,9 @@ export class TeacherAuthComponent implements OnInit {
       return;
     }
 
-    const btnAnimate = document.querySelector('.btn-animate') as HTMLElement;
     const success = document.querySelector('.success') as HTMLElement;
     const frame = document.querySelector('.frame') as HTMLElement;
 
-    btnAnimate.classList.toggle('btn-animate-grow');
     success.classList.toggle('success-left');
     frame.classList.toggle('frame-short');
 
@@ -132,8 +130,8 @@ export class TeacherAuthComponent implements OnInit {
       localStorage.setItem('auth_type', data.auth);
       localStorage.setItem('jwt', data.token);
       setTimeout(() => {
-        this.router.navigate(['/teacher/profile']);
-      }, 5000);
+        this.router.navigate(['/home']);
+      }, 2000);
     });
 
   }
