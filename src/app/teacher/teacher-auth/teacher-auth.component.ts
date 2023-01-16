@@ -3,7 +3,7 @@ import { Teacher } from 'src/app/shared/model/teacher.model';
 import { TeacherService } from 'src/app/shared/teacher.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth.guard';
-import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-teacher-auth',
@@ -17,9 +17,10 @@ export class TeacherAuthComponent implements OnInit {
   registerForm!: FormGroup;
 
   isLoggedIn: boolean = false;
+  message!: string;
 
   ngOnInit(): void {
-    if(this.authGuard.isLoggedIn()) {
+    if (this.authGuard.isLoggedIn()) {
       this.isLoggedIn = true;
     }
     this.loginForm = this.fb.group({
@@ -80,37 +81,37 @@ export class TeacherAuthComponent implements OnInit {
     }
 
     //vérifier si le mail dans registerForm est valide
-    if(!this.registerForm?.get('email')?.valid) {
+    if (!this.registerForm?.get('email')?.valid) {
       alert('Veuillez saisir un email valide');
       return;
     }
 
-      const newTeacher = new Teacher();
-      newTeacher.nom = this.registerForm?.get('nom')?.value;
-      newTeacher.prenom = this.registerForm?.get('prenom')?.value;
-      newTeacher.email = this.registerForm?.get('email')?.value;
-      newTeacher.password = this.registerForm?.get('password')?.value;
-      newTeacher.username = this.registerForm?.get('username')?.value;
-      newTeacher.picture =  this.registerForm?.get('picture')?.value;
+    const newTeacher = new Teacher();
+    newTeacher.nom = this.registerForm?.get('nom')?.value;
+    newTeacher.prenom = this.registerForm?.get('prenom')?.value;
+    newTeacher.email = this.registerForm?.get('email')?.value;
+    newTeacher.password = this.registerForm?.get('password')?.value;
+    newTeacher.username = this.registerForm?.get('username')?.value;
+    newTeacher.picture = this.registerForm?.get('picture')?.value;
 
-      this.teacherService.register(newTeacher).subscribe(data => {
-        localStorage.setItem('auth_type', data.auth);
-        localStorage.setItem('jwt', data.token);
-        this.router.navigate(['/home']);
-      });
+    this.teacherService.register(newTeacher).subscribe(data => {
+      localStorage.setItem('auth_type', data.auth);
+      localStorage.setItem('jwt', data.token);
+      this.router.navigate(['/home']);
+    });
 
-      const nav = document.querySelector('.nav') as HTMLElement;
-      const formSignupLeft = document.querySelector('.form-signup-left') as HTMLElement;
-      const success = document.querySelector('.success') as HTMLElement;
-      const frame = document.querySelector('.frame') as HTMLElement;
-      nav.classList.toggle('nav-up');
-      formSignupLeft.classList.toggle('form-signup-down');
-      success.classList.toggle('success-left');
-      frame.classList.toggle('frame-short');
+    const nav = document.querySelector('.nav') as HTMLElement;
+    const formSignupLeft = document.querySelector('.form-signup-left') as HTMLElement;
+    const success = document.querySelector('.success') as HTMLElement;
+    const frame = document.querySelector('.frame') as HTMLElement;
+    nav.classList.toggle('nav-up');
+    formSignupLeft.classList.toggle('form-signup-down');
+    success.classList.toggle('success-left');
+    frame.classList.toggle('frame-short');
 
     setTimeout(() => {
-        this.router.navigate(['/teacher/profile']);
-      }, 5000);
+      this.router.navigate(['/teacher/profile']);
+    }, 5000);
   }
 
   login() {
@@ -127,11 +128,13 @@ export class TeacherAuthComponent implements OnInit {
 
     // @ts-ignore
     this.teacherService.login(this.loginForm?.get('password').value, this.loginForm?.get('username').value).subscribe(data => {
-      localStorage.setItem('auth_type', data.auth);
-      localStorage.setItem('jwt', data.token);
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2000);
+      if (data.message) {
+        this.message = data.message;
+      } else {
+        localStorage.setItem('auth_type', data.auth);
+        localStorage.setItem('jwt', data.token);
+        this.router.navigate(['/home'])
+      }
     });
 
   }

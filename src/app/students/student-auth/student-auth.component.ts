@@ -3,7 +3,7 @@ import { Student } from 'src/app/shared/model/student.model';
 import { StudentService } from 'src/app/shared/student.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth.guard';
-import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-student-auth',
@@ -16,8 +16,10 @@ export class StudentAuthComponent implements OnInit {
   isLoggedIn: boolean = false;
   loginForm!: FormGroup;
   registerForm!: FormGroup;
+  message!: string;
+
   ngOnInit(): void {
-    if(this.authGuard.isLoggedIn()) {
+    if (this.authGuard.isLoggedIn()) {
       this.isLoggedIn = true;
     }
 
@@ -119,11 +121,13 @@ export class StudentAuthComponent implements OnInit {
 
     // @ts-ignore
     this.studentService.login(this.loginForm?.get('password').value, this.loginForm?.get('username').value).subscribe(data => {
-      localStorage.setItem('auth_type', data.auth);
-      localStorage.setItem('jwt', data.token);
-      setTimeout(() => {
-        this.router.navigate(['/home']);
-      }, 2000);
+      if (data.message) {
+        this.message = data.message;
+      } else {
+        localStorage.setItem('auth_type', data.auth);
+        localStorage.setItem('jwt', data.token);
+        this.router.navigate(['/home'])
+      }
     });
   }
 
