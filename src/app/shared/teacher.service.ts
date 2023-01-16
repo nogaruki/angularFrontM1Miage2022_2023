@@ -16,10 +16,10 @@ export class TeacherService {
     })
   }
   //prodURL :
-  //url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
+  url = "https://projet-angular-back.onrender.com/api/teacher";
 
   //devURL :
-  url = "http://localhost:8010/api/teacher";
+  //url = "http://localhost:8010/api/teacher";
 
   constructor(private http: HttpClient) { }
 

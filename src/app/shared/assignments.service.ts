@@ -14,10 +14,10 @@ export class AssignmentsService {
     })
   }
   //prodURL :
-  //url = "https://api-cours-johann-angular-2022.herokuapp.com/api/assignments"
+  url = "https://projet-angular-back.onrender.com//api/assignments"
 
   //devURL :
-  url = "http://localhost:8010/api/assignments";
+  //url = "http://localhost:8010/api/assignments";
 
   constructor (private loggingService:LoggingService, private http:HttpClient) { }
 

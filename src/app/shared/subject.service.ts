@@ -7,7 +7,12 @@ import { Subject } from './model/subject.model';
   providedIn: 'root'
 })
 export class SubjectService {
-  url = "http://localhost:8010/api/subject";
+
+  //prodURL :
+  url = "https://projet-angular-back.onrender.com/api/subject";
+
+  //devURL :
+  //url = "http://localhost:8010/api/subject";
   constructor(private http:HttpClient) { }
 
   getSubject(id:Number):Observable<Subject> {

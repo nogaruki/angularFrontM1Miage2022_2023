@@ -7,8 +7,10 @@ import { Comment } from './model/comment.model';
   providedIn: 'root'
 })
 export class CommentsService {
-
-  url = "http://localhost:8010/api/comment";
+  //prodURL :
+  url = "https://projet-angular-back.onrender.com/api/comment";
+  //devURL :
+  //url = "http://localhost:8010/api/comment";
 
   constructor(private http:HttpClient) { }
 

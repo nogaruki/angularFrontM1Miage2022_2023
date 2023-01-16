@@ -7,8 +7,11 @@ import {Student} from './model/student.model';
   providedIn: 'root'
 })
 export class StudentService {
+  //prodURL :
+  url = "https://projet-angular-back.onrender.com/api/student";
 
-  url = "http://localhost:8010/api/student";
+  //devURL :
+  //url = "http://localhost:8010/api/student";
   private HttpOptions =  {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
