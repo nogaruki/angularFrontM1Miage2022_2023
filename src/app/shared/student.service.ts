@@ -44,7 +44,6 @@ export class StudentService {
     return this.http.post<{}>(this.url + "/login", {password: password, username: username}, this.HttpOptions);
   }
 
-  // @ts-ignore
   async isLoggedIn(): Promise<boolean> {
     const jwt = localStorage.getItem('jwt');
     if (jwt !== null) {

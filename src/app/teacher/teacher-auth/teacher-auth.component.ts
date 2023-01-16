@@ -100,18 +100,7 @@ export class TeacherAuthComponent implements OnInit {
       this.router.navigate(['/home']);
     });
 
-    const nav = document.querySelector('.nav') as HTMLElement;
-    const formSignupLeft = document.querySelector('.form-signup-left') as HTMLElement;
-    const success = document.querySelector('.success') as HTMLElement;
-    const frame = document.querySelector('.frame') as HTMLElement;
-    nav.classList.toggle('nav-up');
-    formSignupLeft.classList.toggle('form-signup-down');
-    success.classList.toggle('success-left');
-    frame.classList.toggle('frame-short');
-
-    setTimeout(() => {
       this.router.navigate(['/teacher/profile']);
-    }, 5000);
   }
 
   login() {

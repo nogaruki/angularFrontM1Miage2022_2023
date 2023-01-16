@@ -34,7 +34,6 @@ export class StudentProfilComponent implements OnInit {
     });
 
     this.studentService.getStudentByToken(token).subscribe((student) => {
-      // @ts-ignore
       this.student = student;
       this.studentForm.patchValue({
         nom: this.student.nom,
@@ -62,7 +61,6 @@ export class StudentProfilComponent implements OnInit {
       updateStudent.username = this.studentForm.get("username")?.value;
 
       this.studentService.updateStudent(updateStudent).subscribe((student) => {
-        // @ts-ignore
         this.student = student;
         this.snackBar.open("Vos informations ont été mises à jour", "Fermer", { duration: 5000 });
       });
