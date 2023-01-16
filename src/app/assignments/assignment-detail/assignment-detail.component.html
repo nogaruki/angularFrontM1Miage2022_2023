@@ -4,58 +4,63 @@
     <mat-card-subtitle>{{assignementTransmis.dateDeRendu | date}}</mat-card-subtitle>
   </div>
   <div class="teacher-section">
-    <div mat-card-avatar class="example-header-image" *ngIf="teacher"><img mat-card-image src="{{teacher.picture}}" alt="Photo du prof"></div>
+    <div mat-card-avatar class="example-header-image" *ngIf="teacher"><img mat-card-image src="{{teacher.picture}}"
+        alt="Photo du prof"></div>
     <mat-card-subtitle *ngIf="teacherUser">{{teacherUser.nom}}</mat-card-subtitle>
   </div>
   <div class="subject-section">
     <mat-card-subtitle *ngIf="subject">Sujet : {{subject.title}}</mat-card-subtitle>
-    <div mat-card-avatar class="example-header-image" *ngIf="subject"><img mat-card-image src="{{subject.picture}}" alt="Photo de la matière"></div>
+    <div mat-card-avatar class="example-header-image" *ngIf="subject"><img mat-card-image src="{{subject.picture}}"
+        alt="Photo de la matière"></div>
   </div>
   <div class="btn-section">
-    <mat-checkbox *ngIf="!assignementTransmis.rendu" (click)="onAssignementRendu()">Devoir rendu</mat-checkbox>
+    <mat-checkbox *ngIf="!isRendu()" (click)="onAssignementRendu()" [disabled]="!isStudent()">Devoir rendu</mat-checkbox>
     <div class="btn">
       <button mat-stroked-button color="primary" (click)="onclickEdit()" [disabled]="!isAdmin()"> Edit </button>
-      <button mat-flat-button color="warn" (click)="onDeleteAssignmentBtnClick()" [disabled]="!isAdmin()"> Supprimer Assignment</button>
+      <button mat-flat-button color="warn" (click)="onDeleteAssignmentBtnClick()" [disabled]="!isAdmin()"> Supprimer
+        Assignment</button>
     </div>
   </div>
-  <div class="comment-section" *ngIf="comments.length > 0">
-    <mat-card-subtitle *ngIf="!assignementTransmis.rendu">Note : {{assignementTransmis.note}}</mat-card-subtitle>
-    <table>
-      <thead>
-      <tr>
-        <th>N°</th>
-        <th>Remarque</th>
-        <th>Auteur</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let comment of comments; index as i">
-        <td>{{i}}</td>
-        <td>{{comment.comment}}</td>
-        <td>{{comment.teacher_id}}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div *ngIf="comments">
+    <div class="comment-section" *ngIf="comments.length > 0">
+      <mat-card-subtitle *ngIf="!isRendu()">Note : {{assignementTransmis.note}}</mat-card-subtitle>
+      <table>
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Remarque</th>
+            <th>Auteur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comment of comments; index as i">
+            <td>{{i}}</td>
+            <td>{{comment.comment}}</td>
+            <td>{{comment.teacher_id}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="comment-section" *ngIf="isAdmin()" >
-    <mat-card-subtitle >Rendu par: </mat-card-subtitle>
+  <div class="comment-section" *ngIf="isAdmin()">
+    <mat-card-subtitle>Rendu par: </mat-card-subtitle>
     <table *ngIf="students.length > 0; else nothing">
       <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-      </tr>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let student of students; index as i">
-        <td>{{student.nom}}</td>
-        <td>{{student.prenom}}</td>
-      </tr>
+        <tr *ngFor="let student of students; index as i">
+          <td>{{student.nom}}</td>
+          <td>{{student.prenom}}</td>
+        </tr>
       </tbody>
     </table>
     <ng-template #nothing>
-      <mat-card-subtitle >Aucun élève n'a rendu le devoir</mat-card-subtitle>
+      <mat-card-subtitle>Aucun élève n'a rendu le devoir</mat-card-subtitle>
     </ng-template>
 
   </div>

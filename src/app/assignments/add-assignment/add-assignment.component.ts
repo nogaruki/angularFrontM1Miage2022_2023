@@ -38,7 +38,6 @@ export class AddAssignmentComponent implements OnInit {
   onSubmit() {
     const newAssignment = new Assignment();
     newAssignment.id = Math.floor(Math.random() * 10000);
-    newAssignment.rendu = false;
     if(this.generalForm.value.nameFormGroup?.firstCtrl && this.generalForm.value.dateFormGroup?.secondCtrl) {
       newAssignment.nom = this.generalForm.value.nameFormGroup?.firstCtrl;
       newAssignment.dateDeRendu = new Date(this.generalForm.value.dateFormGroup?.secondCtrl);
@@ -48,6 +47,7 @@ export class AddAssignmentComponent implements OnInit {
 
     if (found) {
       newAssignment.subject_id = found.id;
+      newAssignment.students_id = [];
       this.assignmentService.addAssignment(newAssignment).subscribe(message => {
         this.subjectControl.reset();
         this.resultMessage = "L'assignment " + newAssignment.nom + " a bien été crée !"

@@ -9,8 +9,9 @@ import { Comment } from '../../shared/model/comment.model';
 import { SubjectService } from '../../shared/subject.service';
 import { Subject } from '../../shared/model/subject.model';
 import { AuthGuard } from 'src/app/shared/auth.guard';
-import {StudentService} from "../../shared/student.service";
-import {Student} from "../../shared/model/student.model";
+import { StudentService } from "../../shared/student.service";
+import { Student } from "../../shared/model/student.model";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -21,14 +22,19 @@ export class AssignmentDetailComponent implements OnInit {
 
   assignementTransmis!: Assignment;
   teacher!: Teacher;
-  comments!:Comment[];
+  comments!: Comment[];
   subject!: Subject;
   teacherUser!: Teacher;
   students!: Student[];
-  constructor(private studentService: StudentService, private subjectService: SubjectService , private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authGuard: AuthGuard) { }
+  currentUser!: Student;
+
+  constructor(private snackBar: MatSnackBar, private studentService: StudentService, private subjectService: SubjectService, private commentsService: CommentsService, private teacherService: TeacherService, private assignmentsService: AssignmentsService, private route: ActivatedRoute, private router: Router, private authGuard: AuthGuard) { }
 
   ngOnInit(): void {
     this.getAssignment();
+    this.studentService.getStudentByToken(localStorage.getItem("jwt")).subscribe(student => {
+      this.currentUser = student;
+    })
     this.getStudents();
   }
 
@@ -41,10 +47,17 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   onAssignementRendu() {
-    this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(message => {
-      console.log(message)
-      this.router.navigate(['/home']);
-    });
+    console.log(this.currentUser);
+    console.log(this.assignementTransmis.students_id);
+    if (this.currentUser._id) {
+      if (!this.assignementTransmis.students_id) {
+        this.assignementTransmis.students_id = [];
+      }
+      this.assignementTransmis.students_id.push(this.currentUser._id);
+      this.assignmentsService.updateAssignment(this.assignementTransmis).subscribe(assignment => {
+        this.snackBar.open("L'assignment " + assignment.nom + " a bien été rendu !", "Fermer", { duration: 5000 });
+      });
+    }
   }
 
   getAssignment() {
@@ -54,7 +67,6 @@ export class AssignmentDetailComponent implements OnInit {
       this.getTeacher(assignment.teacher_id);
       this.getComments(assignment.id);
       this.getSubject(assignment.subject_id);
-      this.getTeacherUser(assignment.teacher_id);
     });
   }
 
@@ -76,10 +88,6 @@ export class AssignmentDetailComponent implements OnInit {
     });
   }
 
-  getTeacherUser(assignmentId: Number) {
-
-  }
-
   onclickEdit() {
     this.router.navigate(['/assignment', this.assignementTransmis.id, 'edit'],
       { queryParams: { nom: this.assignementTransmis.nom }, fragment: 'edition' });
@@ -89,11 +97,24 @@ export class AssignmentDetailComponent implements OnInit {
     return this.authGuard.isTeacher();
   }
 
+  isStudent(): boolean {
+    return this.authGuard.isStudent();
+  }
+
   getStudents() {
-    this.assignementTransmis.students_id.forEach(studentId => {
-      this.studentService.getStudent(studentId).subscribe(student => {
-        this.students.push(student);
+    if (this.assignementTransmis) {
+      this.assignementTransmis.students_id.forEach(studentId => {
+        this.studentService.getStudent(studentId).subscribe(student => {
+          this.students.push(student);
+        });
       });
-    });
+    }
+  }
+
+  isRendu(): boolean {
+    if (this.students) {
+      return this.students.indexOf(this.currentUser) > -1;
+    }
+    return false;
   }
 }
