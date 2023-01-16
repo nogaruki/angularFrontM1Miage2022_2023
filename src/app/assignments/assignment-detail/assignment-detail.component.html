@@ -15,7 +15,7 @@
     <mat-checkbox *ngIf="!assignementTransmis.rendu" (click)="onAssignementRendu()">Devoir rendu</mat-checkbox>
     <div class="btn">
       <button mat-stroked-button color="primary" (click)="onclickEdit()" [disabled]="!isAdmin()"> Edit </button>
-      <button mat-flat-button color="warn" (click)="onDeleteAssignmentBtnClick()"> Supprimer Assignment</button>
+      <button mat-flat-button color="warn" (click)="onDeleteAssignmentBtnClick()" [disabled]="!isAdmin()"> Supprimer Assignment</button>
     </div>
   </div>
   <div class="comment-section" *ngIf="comments.length > 0">
