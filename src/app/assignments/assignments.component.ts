@@ -6,6 +6,9 @@ import { Assignment } from '../shared/model/assignment.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Sort } from '@angular/material/sort';
+import { Student } from '../shared/model/student.model';
+import { AuthGuard } from '../shared/auth.guard';
+import { StudentService } from '../shared/student.service';
 
 @Component({
   selector: 'app-assignments',
@@ -15,7 +18,7 @@ import { Sort } from '@angular/material/sort';
 export class AssignmentsComponent implements OnInit {
   titre = 'Mon application sur les Assignments !';
   formVisible = false;
-  assignementSelectionne!:Assignment;
+  assignementSelectionne!: Assignment;
   assignments!: Assignment[];
   ajoutActive = false;
   nomDevoir: string = '';
@@ -37,9 +40,17 @@ export class AssignmentsComponent implements OnInit {
   filterValue: string = '';
   filterRendu: string = '';
 
-  constructor(private assignementsService: AssignmentsService, private router: Router) { }
-  
+  currentUser: any;
+
+  constructor(private assignementsService: AssignmentsService, private router: Router, private authGuard: AuthGuard, private studentService: StudentService) { }
+
   ngOnInit(): void {
+    if (this.authGuard.isLoggedIn() && this.authGuard.isStudent()) {
+      this.studentService.getStudentByToken(localStorage.getItem("jwt")).subscribe((user: any) => {
+        this.currentUser = user;
+      })
+    }
+
     this.displayedColumns = ['id', 'nom', 'dateDeRendu', 'rendu'];
     this.assignementsService.getAssignmentsPagine(this.page, this.limit, this.filterValue, this.filterRendu)
       .subscribe(data => {
@@ -84,7 +95,7 @@ export class AssignmentsComponent implements OnInit {
         this.nextPage = data.nextPage;
       });
   }
-  
+
   updatePage(event: any) {
     this.getDataByPage(event.pageIndex + 1, event.pageSize);
   }
@@ -136,5 +147,14 @@ export class AssignmentsComponent implements OnInit {
         this.hasNextPage = data.hasNextPage;
         this.nextPage = data.nextPage;
       });
+  }
+
+  isRendu(assignment: Assignment): boolean {
+    if(this.authGuard.isLoggedIn()) {
+      return assignment.students_id.indexOf(this.currentUser._id) > -1;
+    } else {
+      return false;
+    }
+    
   }
 }

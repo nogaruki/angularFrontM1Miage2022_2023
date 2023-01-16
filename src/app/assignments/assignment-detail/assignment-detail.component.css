@@ -56,4 +56,8 @@
   margin: 10px;
 }
 
-
+.comment-section{
+  max-height:200px;
+  overflow:hidden;
+  overflow-y:scroll;
+}
