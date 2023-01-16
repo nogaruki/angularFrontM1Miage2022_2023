@@ -18,7 +18,6 @@ export class TeacherAuthComponent implements OnInit {
   registerForm!: FormGroup;
 
   isLoggedIn: boolean = false;
-  message!: string;
 
   ngOnInit(): void {
     if (this.authGuard.isLoggedIn()) {
@@ -130,7 +129,7 @@ export class TeacherAuthComponent implements OnInit {
     // @ts-ignore
     this.teacherService.login(this.loginForm?.get('password').value, this.loginForm?.get('username').value).subscribe(data => {
       if (data.message) {
-        this.message = data.message;
+        this.snackBar.open(data.message, "Fermer", { duration: 5000 });
       } else {
         localStorage.setItem('auth_type', data.auth);
         localStorage.setItem('jwt', data.token);

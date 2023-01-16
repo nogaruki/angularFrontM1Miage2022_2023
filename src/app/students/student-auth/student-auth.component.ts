@@ -17,7 +17,6 @@ export class StudentAuthComponent implements OnInit {
   isLoggedIn: boolean = false;
   loginForm!: FormGroup;
   registerForm!: FormGroup;
-  message!: string;
 
   ngOnInit(): void {
     if (this.authGuard.isLoggedIn()) {
