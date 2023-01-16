@@ -3,4 +3,5 @@ export class Subject {
     id!: Number;
     title!: string;
     picture!: string;
+    teacher_id!: String;
 }
