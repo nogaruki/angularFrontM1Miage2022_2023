@@ -51,8 +51,12 @@
               </div>
           </div>
         <div *ngIf="isLoggedIn" class="frame">
-          <p>Vous êtes déjà connecté</p>
-          <button (click)="logOut()">Se déconnecter</button>
+          <div>
+            <div>
+              <p>Vous êtes déjà connecté</p>
+              <button (click)="logOut()">Se déconnecter</button>
+            </div>
+          </div>
         </div>
       </div>
 

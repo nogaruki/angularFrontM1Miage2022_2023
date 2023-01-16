@@ -62,18 +62,18 @@ const routes: Route[] = [
    // http://localhost:4200/teacher/auth
   { path: 'teacher/auth', component: TeacherAuthComponent },
 
-  // http://localhost:4200/teacher/profil
+  // http://localhost:4200/teacher/profile
   {
-    path: 'student/profile',
-    component: StudentProfilComponent,
+    path: 'teacher/profile',
+    component: TeacherProfileComponent,
     canActivate: [AuthGuard],
-    data: { userType: 'student' }
+    data: { userType: 'teacher' }
   },
 
   // http://localhost:4200/student/auth
   { path: 'student/auth', component: StudentAuthComponent },
 
-  // http://localhost:4200/student/profil
+  // http://localhost:4200/student/profile
   {
     path: 'student/profile',
     component: StudentProfilComponent,

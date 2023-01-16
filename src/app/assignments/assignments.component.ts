@@ -150,11 +150,10 @@ export class AssignmentsComponent implements OnInit {
   }
 
   isRendu(assignment: Assignment): boolean {
-    if(this.authGuard.isLoggedIn()) {
+    if(this.authGuard.isStudent()) {
       return assignment.students_id.indexOf(this.currentUser._id) > -1;
     } else {
       return false;
     }
-    
   }
 }

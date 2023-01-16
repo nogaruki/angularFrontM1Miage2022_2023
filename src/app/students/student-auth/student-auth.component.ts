@@ -87,15 +87,10 @@ export class StudentAuthComponent implements OnInit {
     newStudent.username = this.registerForm?.get('username')?.value;
 
     this.studentService.register(newStudent).subscribe(data => {
-      localStorage.setItem('auth_type', data.auth);
-      localStorage.setItem('jwt', data.token);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/student/auth']);
+      this.snackBar.open('Inscription réussie', "Fermer", {duration: 5000});
     });
 
-
-    setTimeout(() => {
-      this.router.navigate(['/student/profile']);
-    }, 5000);
   }
 
   login() {

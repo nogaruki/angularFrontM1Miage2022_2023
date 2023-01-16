@@ -5,8 +5,8 @@
           <div *ngIf="!isLoggedIn" class="frame">
               <div class="nav">
                   <ul class="links">
-                      <li class="signin-active"><a class="btn">Sign in</a></li>
-                      <li class="signup-inactive"><a class="btn">Sign up </a></li>
+                      <li class="signin-active"><a class="btn">Connexion</a></li>
+                      <li class="signup-inactive"><a class="btn">Inscription</a></li>
                   </ul>
               </div>
               <div>
@@ -44,8 +44,10 @@
 
           </div>
           <div *ngIf="isLoggedIn" class="frame">
-            <p>Vous êtes déjà connecté</p>
-            <button (click)="logOut()">Se déconnecter</button>
+            <div>
+              <p>Vous êtes déjà connecté</p>
+              <button (click)="logOut()">Se déconnecter</button>
+            </div>
           </div>
       </div>
 </body>

@@ -34,7 +34,7 @@ export class TeacherAuthComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       username: ['', [Validators.required, Validators.minLength(3)]],
-      picture: ['', [Validators.required, Validators.minLength(3)]],
+      picture: [''],
     });
   }
 
@@ -64,25 +64,25 @@ export class TeacherAuthComponent implements OnInit {
   register() {
     //verifier si le registerFom est valide
     if (this.registerForm?.invalid) {
-      this.snackBar.open('Veuillez remplir tous les champs', "Fermer", { duration: 5000 });
+      this.snackBar.open('Veuillez remplir tous les champs', "Fermer", {duration: 5000});
       return;
     }
 
     //verifier si le mot de passe < 6 caractères
     if (this.registerForm?.get('password')?.value.length < 6) {
-      this.snackBar.open('Le mot de passe doit contenir au moins 6 caractères', "Fermer", { duration: 5000 });
+      this.snackBar.open('Le mot de passe doit contenir au moins 6 caractères', "Fermer", {duration: 5000});
       return;
     }
 
     //verifier si les deux mots de passe dans registerFom sont identiques
     if (this.registerForm?.get('password')?.value !== this.registerForm?.get('confirmPassword')?.value) {
-      this.snackBar.open('Les deux mots de passe ne sont pas identiques', "Fermer", { duration: 5000 });
+      this.snackBar.open('Les deux mots de passe ne sont pas identiques', "Fermer", {duration: 5000});
       return;
     }
 
     //vérifier si le mail dans registerForm est valide
     if (!this.registerForm?.get('email')?.valid) {
-      this.snackBar.open('Veuillez saisir un email valide', "Fermer", { duration: 5000 });
+      this.snackBar.open('Veuillez saisir un email valide', "Fermer", {duration: 5000});
       return;
     }
 
@@ -95,12 +95,9 @@ export class TeacherAuthComponent implements OnInit {
     newTeacher.picture = this.registerForm?.get('picture')?.value;
 
     this.teacherService.register(newTeacher).subscribe(data => {
-      localStorage.setItem('auth_type', data.auth);
-      localStorage.setItem('jwt', data.token);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
+      this.snackBar.open('Inscription réussie', "Fermer", {duration: 5000});
     });
-
-      this.router.navigate(['/teacher/profile']);
   }
 
   login() {
@@ -108,12 +105,6 @@ export class TeacherAuthComponent implements OnInit {
       this.snackBar.open('Veuillez remplir tous les champs', "Fermer", { duration: 5000 });
       return;
     }
-
-    const success = document.querySelector('.success') as HTMLElement;
-    const frame = document.querySelector('.frame') as HTMLElement;
-
-    success.classList.toggle('success-left');
-    frame.classList.toggle('frame-short');
 
     // @ts-ignore
     this.teacherService.login(this.loginForm?.get('password').value, this.loginForm?.get('username').value).subscribe(data => {

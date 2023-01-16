@@ -3,12 +3,13 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Observable } from 'rxjs';
 import { StudentService } from './student.service';
 import { TeacherService } from './teacher.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private studentService: StudentService, private teacherService: TeacherService,private router: Router) { }
+  constructor(private studentService: StudentService, private teacherService: TeacherService,private router: Router, private  snackbar: MatSnackBar) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -21,7 +22,10 @@ export class AuthGuard implements CanActivate {
         return this.teacherService.isLoggedIn();
       } else {
         this.router.navigate(['/home']);
-        alert("Vous n'êtes pas un professeur");
+        this.snackbar.open("Vous n'êtes pas un professeur", "OK", {
+          duration: 2000,
+        });
+
       }
     }
     else if (userType === 'student') {
@@ -30,7 +34,9 @@ export class AuthGuard implements CanActivate {
          return this.studentService.isLoggedIn();
       } else  {
         this.router.navigate(['/home']);
-        alert("Vous n'êtes pas un élève");
+        this.snackbar.open("Vous n'êtes pas un élève", "OK", {
+          duration: 2000,
+        });
       }
     } else {
       this.router.navigate(['/home']);

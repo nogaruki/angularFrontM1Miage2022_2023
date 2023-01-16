@@ -67,7 +67,6 @@ export class TeacherProfileComponent implements OnInit {
 
       this.teacherService.updateTeacher(updateTeacher).subscribe((teacher) => {
         this.teacher = teacher;
-        alert("Vos informations ont été mises à jour");
         this.snackBar.open("Vos informations ont été mises à jour", "Fermer", { duration: 5000 });
       });
     }
