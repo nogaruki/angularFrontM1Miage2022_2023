@@ -4,6 +4,7 @@ import { StudentService } from 'src/app/shared/student.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth.guard';
 import { FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
 // @ts-ignore
 import * as bcrypt from 'bcryptjs';
 @Component({
@@ -13,7 +14,7 @@ import * as bcrypt from 'bcryptjs';
 })
 export class StudentProfilComponent implements OnInit {
 
-  constructor(private studentService: StudentService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder) { }
+  constructor(private studentService: StudentService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder, private snackBar: MatSnackBar) { }
   studentForm!: FormGroup;
   student!:Student;
   isActif: boolean = false;
@@ -51,7 +52,7 @@ export class StudentProfilComponent implements OnInit {
     console.log(this.studentForm.value);
     let updateStudent = new Student();
     if(!this.studentForm.valid) {
-      alert("Veuillez remplir tous les champs");
+      this.snackBar.open("Veuillez remplir tous les champs", "Fermer", { duration: 5000 });
     } else {
 
       updateStudent._id = this.student._id;
@@ -63,7 +64,7 @@ export class StudentProfilComponent implements OnInit {
       this.studentService.updateStudent(updateStudent).subscribe((student) => {
         // @ts-ignore
         this.student = student;
-        alert("Vos informations ont été mises à jour");
+        this.snackBar.open("Vos informations ont été mises à jour", "Fermer", { duration: 5000 });
       });
     }
   }

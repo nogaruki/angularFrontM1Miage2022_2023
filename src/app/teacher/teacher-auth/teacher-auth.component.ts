@@ -4,6 +4,7 @@ import { TeacherService } from 'src/app/shared/teacher.service';
 import { Router } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/auth.guard';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-teacher-auth',
@@ -12,7 +13,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class TeacherAuthComponent implements OnInit {
 
-  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder) { }
+  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder, private snackBar: MatSnackBar) { }
   loginForm!: FormGroup;
   registerForm!: FormGroup;
 
@@ -64,25 +65,25 @@ export class TeacherAuthComponent implements OnInit {
   register() {
     //verifier si le registerFom est valide
     if (this.registerForm?.invalid) {
-      alert('Veuillez remplir tous les champs');
+      this.snackBar.open('Veuillez remplir tous les champs', "Fermer", { duration: 5000 });
       return;
     }
 
     //verifier si le mot de passe < 6 caractères
     if (this.registerForm?.get('password')?.value.length < 6) {
-      alert('Le mot de passe doit contenir au moins 6 caractères');
+      this.snackBar.open('Le mot de passe doit contenir au moins 6 caractères', "Fermer", { duration: 5000 });
       return;
     }
 
     //verifier si les deux mots de passe dans registerFom sont identiques
     if (this.registerForm?.get('password')?.value !== this.registerForm?.get('confirmPassword')?.value) {
-      alert('Les deux mots de passe ne sont pas identiques');
+      this.snackBar.open('Les deux mots de passe ne sont pas identiques', "Fermer", { duration: 5000 });
       return;
     }
 
     //vérifier si le mail dans registerForm est valide
     if (!this.registerForm?.get('email')?.valid) {
-      alert('Veuillez saisir un email valide');
+      this.snackBar.open('Veuillez saisir un email valide', "Fermer", { duration: 5000 });
       return;
     }
 
@@ -116,7 +117,7 @@ export class TeacherAuthComponent implements OnInit {
 
   login() {
     if (this.loginForm?.invalid) {
-      alert('Veuillez remplir tous les champs');
+      this.snackBar.open('Veuillez remplir tous les champs', "Fermer", { duration: 5000 });
       return;
     }
 

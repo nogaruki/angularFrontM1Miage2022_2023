@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AuthGuard} from "../../shared/auth.guard";
 import {TeacherService} from "../../shared/teacher.service";
 import {Teacher} from "../../shared/model/teacher.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 // @ts-ignore
 import * as bcrypt from 'bcryptjs';
@@ -19,7 +20,7 @@ export class TeacherProfileComponent implements OnInit {
   isActif: boolean = false;
   formInitialized: boolean = false;
 
-  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder) { }
+  constructor(private teacherService: TeacherService, private router: Router, private authGuard: AuthGuard, private fb: FormBuilder, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     let token = this.authGuard.getToken();
@@ -54,7 +55,7 @@ export class TeacherProfileComponent implements OnInit {
     console.log(this.teacherForm.value);
     let updateTeacher = new Teacher();
     if(!this.teacherForm.valid) {
-      alert("Veuillez remplir tous les champs");
+      this.snackBar.open("Veuillez remplir tous les champs", "Fermer", { duration: 5000 });
     } else {
 
       updateTeacher._id = this.teacher._id;
@@ -68,6 +69,7 @@ export class TeacherProfileComponent implements OnInit {
         // @ts-ignore
         this.teacher = teacher;
         alert("Vos informations ont été mises à jour");
+        this.snackBar.open("Vos informations ont été mises à jour", "Fermer", { duration: 5000 });
       });
     }
   }

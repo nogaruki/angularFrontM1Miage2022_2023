@@ -30,7 +30,7 @@ import { AuthGuard } from './shared/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatTableModule } from '@angular/material/table';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { StudentAuthComponent } from './students/student-auth/student-auth.component';
 import { TeacherAuthComponent } from './teacher/teacher-auth/teacher-auth.component';
@@ -121,7 +121,8 @@ const routes: Route[] = [
     MatMenuModule,
     MatSelectModule,
     ReactiveFormsModule,
-    MatStepperModule
+    MatStepperModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
